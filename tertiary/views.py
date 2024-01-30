@@ -1,3 +1,5 @@
 from django.shortcuts import render
-
-# Create your views here.
+def perfil(request):
+    return render(request, 'template/Perfil.html')
+def citas(request):
+    return render(request, 'template/Citas.html')
