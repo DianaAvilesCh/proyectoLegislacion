@@ -1,0 +1,32 @@
+{% extends 'base_docu.html' %}
+{% load static %}
+{% block title %}Iniciar Sesión{% endblock %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/style.css' %}"/>
+{% endblock css %}
+{% block content %}
+<section class="register" id="register">
+    <form action="/login/" method="POST">
+        {% csrf_token %}
+        <div class="formulario">
+            <h1>Iniciar Sesión</h1>
+            <div class="input-box">
+                <label >Correo Electronico</label>
+                <input type="email" name="username" id="username"  required>
+            </div>
+            <div class="input-box">
+                <label >Contraseña</label>
+                <input type="password" name="password1" id="password1" required>
+            </div>
+            {% if error %}
+            <p class="error-message">{{ error }}</p>
+            {% endif %}
+            <button>Ingresar</button>
+        </div>
+    </form>
+</section>
+
+
+{% endblock %}
+{% block js %}
+{% endblock js %}

@@ -1,0 +1,63 @@
+{% extends 'base_docu.html' %}
+{% load static %}
+{% block title %}DocuHealth{% endblock %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/style.css' %}"/>
+{% endblock css %}
+
+{% block content %}
+<!-- Home section start-->
+<section class="home" id="home">
+  <div class="image">
+      <img src="{% static 'img/DocuHealth-1.png' %}" alt="">
+  </div>
+  <div class="content">
+      <h3>DocuHealth</h3>
+      <p>Gestiona tus documentos medicos con seguridad</p>
+  </div>
+</section>
+<!-- Home section ends -->
+<!-- Service section start-->
+<section class="services" id="services">
+<h1 class="heading">
+  Nuestros
+  <span>
+     servicios 
+  </span>
+</h1>
+<div class="box-container">
+  <div class="box">
+      <i class="fas fa-notes-medical"></i>
+      <h3>free checkups</h3>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus, laboriosam iste! Deleniti, laudantium. </p>
+  </div>
+  <div class="box">
+      <i class="fas fa-ambulance"></i>
+      <h3>24/7 ambulance</h3>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus, laboriosam iste! Deleniti, laudantium. </p>
+  </div>
+  <div class="box">
+      <i class="fas fa-user-md"></i>
+      <h3>expert doctors</h3>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus, laboriosam iste! Deleniti, laudantium. </p>
+  </div>
+</div>
+</section>
+<!-- Service section ends -->
+<!-- About section start-->
+<section class="about" id="about">
+<h1 class="heading"><span> Acerca</span> de </h1>
+<div class="row">
+  <div class="image">
+      <img src="{% static 'img/about-1.png' %}" alt="">
+  </div>
+  <div class="content">
+      <h3>Nos encargamos de sus documentos médicos</h3>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure asperiores sint eius adipisci fuga! Molestiae doloremque odio assumenda neque. Impedit veniam doloremque corrupti omnis sapiente perspiciatis ullam voluptatem quasi assumenda.</p>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odio exercitationem distinctio amet assumenda provident sunt minus impedit ab quia reprehenderit.</p>
+      <a href="#" class="btn"> <span class="fas fa-cheveron-right"></span></a>
+  </div>
+</div>
+</section>
+<!-- About section ends -->
+{% endblock %}
