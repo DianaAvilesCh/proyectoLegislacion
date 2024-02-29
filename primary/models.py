@@ -7,7 +7,7 @@ class persona(models.Model):
     dni = models.CharField(max_length=10)
     nombres = models.CharField(max_length=100)
     apellidos = models.CharField(max_length=100)
-    correo = models.CharField(max_length=100)
+    correo = models.EmailField(max_length=100, unique=True)
     telefono = models.CharField(max_length=10)
     sexo = models.CharField(max_length=10)
 
@@ -16,7 +16,7 @@ class persona(models.Model):
     
 class doctor(models.Model):
     id_persona = models.ForeignKey(persona,on_delete=models.CASCADE)
-    rec_senecyt = models.CharField(max_length=10)
+    rec_senecyt = models.CharField(max_length=15)
     especialidad = models.CharField(max_length=100)
     institucion = models.CharField(max_length=100)
 

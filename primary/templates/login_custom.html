@@ -3,10 +3,11 @@
 {% block title %}Iniciar Sesión{% endblock %}
 {% block css %}
 <link rel="stylesheet" href="{% static 'css/style.css' %}"/>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 {% endblock css %}
 {% block content %}
 <section class="register" id="register">
-    <form action="/login/" method="POST">
+    <form id="loginForm" action="/login_custom/" method="POST">
         {% csrf_token %}
         <div class="formulario">
             <h1>Iniciar Sesión</h1>
@@ -16,12 +17,21 @@
             </div>
             <div class="input-box">
                 <label >Contraseña</label>
-                <input type="password" name="password1" id="password1" required>
+                <input type="password" name="password" id="password" required>
+                
+            </div>
+            <div class="mostrarPassword">
+                <input type="checkbox" id="mostrarPassword">
+                <label >Mostrar Contraseña</label>
+            </div>
+            <div id="overlay">
+                <div id="loader" class="loader"></div>
+                <div class="textloader" >Cargando</div>
             </div>
             {% if error %}
             <p class="error-message">{{ error }}</p>
             {% endif %}
-            <button>Ingresar</button>
+            <button type="submit">Ingresar</button>
         </div>
     </form>
 </section>
