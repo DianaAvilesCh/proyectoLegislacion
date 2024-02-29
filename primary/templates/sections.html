@@ -1,0 +1,63 @@
+{% extends 'base_docu.html' %}
+{% load static %}
+{% block title %}DocuHealth{% endblock %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/style.css' %}"/>
+{% endblock css %}
+
+{% block content %}
+<!-- Home section start-->
+<section class="home" id="home">
+  <div class="image">
+      <img src="{% static 'img/DocuHealth-1.png' %}" alt="">
+  </div>
+  <div class="content">
+      <h3>DocuHealth</h3>
+      <p>Gestiona tus documentos medicos con seguridad</p>
+  </div>
+</section>
+<!-- Home section ends -->
+<!-- Service section start-->
+<section class="services" id="services">
+<h1 class="heading">
+  Nuestros
+  <span>
+     servicios 
+  </span>
+</h1>
+<div class="box-container">
+  <div class="box">
+    <i class="fas fa-notes-medical"></i>
+    <h3>Gestión de Citas</h3>
+    <p>Este módulo permite a los doctores buscar, reservar, reprogramar o cancelar citas de manera eficiente.</p>
+</div>
+<div class="box">
+    <i class="fas fa-calendar-days"></i>
+    <h3>Calendario y Programación</h3>
+    <p>Integra un calendario que facilita la visualización de citas y disponibilidad de manera clara y organizada.</p>
+</div>
+<div class="box">
+    <i class="fas fa-user-md"></i>
+    <h3>Historial Médico y Documentación</h3>
+    <p>Permite a los doctores cargar y gestionar de forma efectiva el historial médico del paciente.</p>
+</div>
+
+</div>
+</section>
+<!-- Service section ends -->
+<!-- About section start-->
+<section class="about" id="about">
+<h1 class="heading"><span> Acerca</span> de </h1>
+<div class="row">
+  <div class="image">
+      <img src="{% static 'img/about-1.png' %}" alt="">
+  </div>
+  <div class="content">
+      <h3>DocuHealth: Tu Solución Integral de Gestión Médica</h3>
+      <p>DocuHealth es mucho más que un sistema de gestión de citas; es una solución integral diseñada para mejorar la eficiencia y seguridad en la administración médica. Nos enfocamos en proporcionar a los profesionales de la salud las herramientas necesarias para brindar una atención de calidad, centrándonos tanto en la gestión de citas como en la seguridad de los documentos médicos.</p>
+      <a href="#" class="btn"> <span class="fas fa-cheveron-right"></span></a>
+  </div>
+</div>
+</section>
+<!-- About section ends -->
+{% endblock %}

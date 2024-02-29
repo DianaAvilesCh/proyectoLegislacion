@@ -1,0 +1,108 @@
+{% extends 'base_docu.html' %}
+{% load static %}
+{% block title %}Registrarse{% endblock %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/style.css' %}"/>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+{% endblock css %}
+{% block content %}
+<section class="register" id="register">
+    <form id="registerForm" action="/register/" method="POST" autocomplete="off">
+        {% csrf_token %}
+        <div class="formulario">
+            <h1>Registrarse</h1>
+            <h2>Datos personales</h2>
+            <div class="column">
+                <div class="input-box">
+                    <label for="nombres">Nombres</label>
+                    <input type="text" name="nombres" id="nombres" required value="{{ persona_form.nombres.value|default_if_none:''  }}">
+                </div>
+                <div class="input-box">
+                    <label for="apellidos">Apellidos</label>
+                    <input type="text" name="apellidos" id="apellidos" required value="{{ persona_form.apellidos.value|default_if_none:''  }}">
+                </div>
+            </div>
+            
+            <div class="column">
+                <div class="input-box">
+                    <label for="dni">Cédula</label>
+                    <input type="number" name="dni" id="dni" required min="0" oninput="validity.valid||(value='');" minlength="10" maxlength="10" title="La cédula debe contener 10 dígitos numéricos" value="{{ persona_form.dni.value|default_if_none:''  }}">
+
+                </div>
+                <div class="input-box">
+                    <label for="telefono">Teléfono</label>
+                    <input type="text" name="telefono" id="telefono" required pattern="[0-9]+" minlength="10" maxlength="10" value="{{ persona_form.telefono.value|default_if_none:''  }}">
+                </div>
+            </div>
+            
+            <div class="gender-box">
+                <h3>Género</h3>
+                <div class="gender-option">
+                    <div class="gender">
+                        <input type="radio" id="check-masculino" name="sexo" value="Masculino" {% if persona_form.sexo.value == 'Masculino' %}checked{% endif %} required>
+                        <label for="check-masculino">Masculino</label>
+                    </div>
+                    <div class="gender">
+                        <input type="radio" id="check-femenino" name="sexo" value="Femenino" {% if persona_form.sexo.value == 'Femenino' %}checked{% endif %} required>
+                        <label for="check-femenino">Femenino</label>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <h2>Información de la institución médica</h2>
+            <div class="column">
+                <div class="input-box">
+                    <label for="rec_senecyt">Reg. Senecyt</label>
+                    <input type="number" name="rec_senecyt" id="rec_senecyt" required value="{{ doctor_form.rec_senecyt.value|default_if_none:''  }}">
+                    </div>
+                <div class="input-box">
+                    <label for="especialidad">Especialidad</label>
+                    <input type="text" name="especialidad" id="especialidad" required value="{{ doctor_form.especialidad.value|default_if_none:''  }}">
+                </div>
+            </div>
+            
+            <div class="input-box">
+                <label for="institucion">Nombre Institución</label>
+                <input type="text" name="institucion" id="institucion" required value="{{ doctor_form.institucion.value|default_if_none:''  }}">
+            </div>
+            <!-- ... Resto del formulario ... -->
+            <br>
+            <h2>Datos de usuario</h2>
+            <div class="input-box">
+                <label for="correo">Correo</label>
+                <input type="email" name="correo" id="correo" required value="{{ persona_form.correo.value|default_if_none:''  }}">
+            </div>
+            <div class="input-box">
+                <label for="password1">Contraseña</label>
+                <input type="password" name="password1" id="password1" required>
+            </div>
+            <div class="input-box">
+                <label for="password2">Repetir Contraseña</label>
+                <input type="password" name="password2" id="password2" required>
+            </div>
+            <div class="mostrarPassword">
+                <input type="checkbox" id="mostrarPassword">
+                <label >Mostrar Contraseña</label>
+            </div>
+            <div id="overlay">
+                <div id="loader" class="loader"></div>
+                <div class="textloader" >Cargando</div>
+            </div>
+            <div class="input-box">
+                {% if form.errors %}
+                    <strong>Error items:</strong>
+                        {% for field, errors in form.errors.items %}
+                            {% for error in errors %}
+                                <li>{{ field }}: {{ error }}</li>
+                            {% endfor %}
+                        {% endfor %}
+                {% endif %}
+            </div>
+            
+            <button type="submit">Registrarse</button>
+        </div>
+    </form>
+</section>
+{% endblock %}
+{% block js %}
+{% endblock js %}
