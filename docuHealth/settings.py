@@ -56,7 +56,7 @@ ROOT_URLCONF = 'docuHealth.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / "templates", os.path.join(BASE_DIR, 'tertiary')],
+        'DIRS': [BASE_DIR / "templates", os.path.join(BASE_DIR, 'tertiary'),os.path.join(BASE_DIR, 'secondary')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

@@ -1,3 +1,5 @@
 from django.shortcuts import render
-
-# Create your views here.
+def dashboard(request):
+    return render(request, 'template/dashboard.html')
+def patient(request):
+    return render(request, 'template/patient.html')
