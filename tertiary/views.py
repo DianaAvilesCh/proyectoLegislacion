@@ -1,5 +1,5 @@
 from django.shortcuts import render
-def perfil(request):
-    return render(request, 'template/Perfil.html')
-def citas(request):
-    return render(request, 'template/Citas.html')
+def profile(request):
+    return render(request, 'template/profile.html')
+def quotes(request):
+    return render(request, 'template/quotes.html')
