@@ -15,30 +15,30 @@
 <body class="body">
 <div class="container">
     <h1>Perfil del Doctor</h1>
-    {% if editing %}
     <form class="row g-3" method="post">
         {% csrf_token %}
-        {{ persona_form.as_p }}
-        {{ doctor_form.as_p }}
-        <div class="col-12">
+        {% for field in persona_form %}
+            <div class="mb-3">
+                <label class="form-label">{{ field.label }}</label>
+                <!-- Chequea si estamos en modo de edición para establecer el campo como solo lectura o no -->
+                <input type="{{ field.field.widget.input_type }}" class="form-control" id="{{ field.id_for_label }}" name="{{ field.html_name }}" value="{{ field.value }}" {% if not editing %}readonly{% endif %}>
+            </div>
+        {% endfor %}
+        {% for field in doctor_form %}
+            <div class="mb-3">
+                <label class="form-label">{{ field.label }}</label>
+                <input type="{{ field.field.widget.input_type }}" class="form-control" id="{{ field.id_for_label }}" name="{{ field.html_name }}" value="{{ field.value }}" {% if not editing %}readonly{% endif %}>
+            </div>
+        {% endfor %}
+        {% if editing %}
             <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-        </div>
+            <a href="{% url 'perfil_doctor' %}" class="btn btn-secondary">Cancelar</a>
+        {% else %}
+            <a href="?editar=true" class="btn btn-secondary">Editar</a>
+        {% endif %}
     </form>
-    {% else %}
-    <div>
-        <p>DNI: {{ doctor.id_persona.dni }}</p>
-        <p>Nombres: {{ doctor.id_persona.nombres }}</p>
-        <p>Apellidos: {{ doctor.id_persona.apellidos }}</p>
-        <p>Correo: {{ doctor.id_persona.correo }}</p>
-        <p>Teléfono: {{ doctor.id_persona.telefono }}</p>
-        <p>Sexo: {{ doctor.id_persona.sexo }}</p>
-        <p>Registro SENECYT: {{ doctor.rec_senecyt }}</p>
-        <p>Especialidad: {{ doctor.especialidad }}</p>
-        <p>Institución: {{ doctor.institucion }}</p>
-        <a href="?editar=true" class="btn btn-secondary">Editar</a>
-    </div>
-    {% endif %}
 </div>
+
 
 </body>
 </html>
