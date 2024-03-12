@@ -13,58 +13,31 @@
 
 </head>
 <body class="body">
-
 <div class="container">
-    <h1>Perfil</h1>
-    <section class="container-fluid">
-        <form class="row g-3" method="post">
-            <div class="col-md-2">
-                <label for="inputDni" class="form-label">DNI</label>
-                <input type="text"  class="form-control" id="inputDni" value="{{ doctor.id_persona.dni }}">
-            </div>
-            <div class="col-md-5">
-                <label for="inputNombres" class="form-label">Nombres</label>
-                <input type="text" maxlength="50" class="form-control" id="inputNombres" value="{{ doctor.id_persona.nombres }}">
-            </div>
-            <div class="col-md-5">
-                <label for="inputApellidos" class="form-label">Apellidos</label>
-                <input type="text" maxlength="50" class="form-control" id="inputApellidos" value="{{ doctor.id_persona.apellidos }}">
-            </div>
-            <div class="col-md-3">
-                <label for="inputSenecyt" class="form-label">Registro Senecyt</label>
-                <input type="text" maxlength="30" class="form-control" id="inputSenecyt" {{ doctor.rec_senecyt}}>
-            </div>
-            <div class="col-md-3">
-                <label for="inputCorreo" class="form-label">Correo</label>
-                <input type="email" maxlength="30" class="form-control" id="inputCorreo">
-            </div>
-            <div class="col-3">
-                <label for="inputTelefono" class="form-label">Teléfono</label>
-                <input type="text" class="form-control" id="inputTelefono" maxlength="10" placeholder="0999999999">
-            </div>
-            <div class="col-3">
-                <label for="inputSexo" class="form-label">Sexo</label>
-                <select id="inputSexo" class="form-select" aria-label="Sexo">
-                    <option selected>Seleccione . . .</option>
-                    <option value="1">Hombre</option>
-                    <option value="2">Mujer</option>
-                </select>
-
-            </div>
-            <div class="col-md-3">
-                <label for="inputEspecialidad" class="form-label">Especialidad</label>
-                <input type="text" class="form-control" id="inputEspecialidad" maxlength="30">
-            </div>
-            <div class="col-md-6">
-                <label for="inputInstitucion" class="form-label">Institución</label>
-                <input type="text" class="form-control" id="inputInstitucion" maxlength="30">
-            </div>
-
-            <div class="col-12">
-                <button type="submit" class="btn btn-primary">Editar</button>
-            </div>
-        </form>
-    </section>
+    <h1>Perfil del Doctor</h1>
+    {% if editing %}
+    <form class="row g-3" method="post">
+        {% csrf_token %}
+        {{ persona_form.as_p }}
+        {{ doctor_form.as_p }}
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+        </div>
+    </form>
+    {% else %}
+    <div>
+        <p>DNI: {{ doctor.id_persona.dni }}</p>
+        <p>Nombres: {{ doctor.id_persona.nombres }}</p>
+        <p>Apellidos: {{ doctor.id_persona.apellidos }}</p>
+        <p>Correo: {{ doctor.id_persona.correo }}</p>
+        <p>Teléfono: {{ doctor.id_persona.telefono }}</p>
+        <p>Sexo: {{ doctor.id_persona.sexo }}</p>
+        <p>Registro SENECYT: {{ doctor.rec_senecyt }}</p>
+        <p>Especialidad: {{ doctor.especialidad }}</p>
+        <p>Institución: {{ doctor.institucion }}</p>
+        <a href="?editar=true" class="btn btn-secondary">Editar</a>
+    </div>
+    {% endif %}
 </div>
 
 </body>
