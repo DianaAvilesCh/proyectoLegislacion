@@ -1,17 +1,18 @@
 from django import forms
-from .models import Persona, Doctor, Cita
+from primary.models import persona, doctor
+from tertiary.models import cita
 
 class PersonaForm(forms.ModelForm):
     class Meta:
-        model = Persona
+        model = persona
         fields = ['dni', 'nombres', 'apellidos', 'correo', 'telefono', 'sexo']
 
 class DoctorForm(forms.ModelForm):
     class Meta:
-        model = Doctor
+        model = doctor
         fields = ['rec_senecyt', 'especialidad', 'institucion']
 
 class CitaForm(forms.ModelForm):
     class Meta:
-        model = Cita
+        model = cita
         fields = ['id_doctor_paciente','fecha', 'hora', 'detalle']
