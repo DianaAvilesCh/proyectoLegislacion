@@ -1,4 +1,5 @@
-{% extends "base.html" %} {% block title %}Pacientes{% endblock %} {%block content %}
+{% extends "base.html" %} {% block title %}Pacientes{% endblock %} 
+{%block content %}
 <section>
   <br />
   <div class="container is-fluid">
@@ -14,156 +15,26 @@
     <div class="modal-background"></div>
     <div class="modal-card">
       <header class="modal-card-head">
-        <p class="modal-card-title">Nuevo Paciente</p>
+        <p class="modal-card-title">Modal title</p>
         <button class="delete close-modal-button" aria-label="close"></button>
       </header>
-      <form id="loginForm" action="/login_custom/" method="POST">
-        {% csrf_token %}
-        <section class="modal-card-body">
-          <div class="field">
-            <div class="columns">
-              <div class="column">
-                <label class="label">Nombre</label>
-                <div class="control">
-                  <input
-                    class="input is-link"
-                    type="text"
-                    placeholder="Link input"
-                    name="name"
-                    id="name"
-                    required
-                  />
-                </div>
-              </div>
-              <div class="column">
-                <label class="label">Apellido</label>
-                <div class="control">
-                  <input
-                    class="input is-link"
-                    type="text"
-                    placeholder="Link input"
-                    name="lastname"
-                    id="lastname"
-                    required
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div class="columns">
-              <div class="column">
-                <label class="label">Cédula</label>
-                <div class="control">
-                  <input
-                    class="input is-link"
-                    type="text"
-                    placeholder="Link input"
-                    name="dni"
-                    id="dni"
-                    required
-                  />
-                </div>
-              </div>
-
-              <div class="column">
-                <label class="label">Teléfono</label>
-                <div class="control">
-                  <input
-                    class="input is-link"
-                    type="text"
-                    placeholder="Link input"
-                    name="phone"
-                    id="phone"
-                    required
-                  />
-                </div>
-              </div>
-              <div class="column">
-                <label class="label">Sexo</label>
-                <div class="control">
-                  <div class="select is-link">
-                    <select name="sex" id="sex" required>
-                      <option>---- Seleccione ----</option>
-                      <option value="Femenino">Femenino</option>
-                      <option value="Masculino">Masculino</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="field">
-            <label class="label">Correo</label>
-            <div class="control">
-              <input
-                class="input is-link"
-                type="text"
-                placeholder="Link input"
-                name="email"
-                    id="email"
-                    required
-              />
-            </div>
-          </div>
-          <div class="field">
-            <div class="columns">
-              <div class="column">
-                <label class="label">Dirección</label>
-                <div class="control">
-                  <input
-                    class="input is-link"
-                    type="text"
-                    placeholder="Link input"
-                    name="address"
-                    id="address"
-                    required
-                  />
-                </div>
-              </div>
-              <div class="column">
-                <label class="label">Tipo de Sangre</label>
-                <div class="control">
-                  <input
-                    class="input is-link"
-                    type="text"
-                    placeholder="Link input"
-                    name="blood"
-                    id="blood"
-                    required
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="field">
-            <label class="label">Antecedentes Personal</label>
-            <div class="control">
-              <textarea
-                class="textarea is-primary"
-                placeholder="Primary textarea"
-                name="antPerson"
-                id="antPerson"
-                required
-              ></textarea>
-            </div>
-            <label class="label">Antecedentes Familiar</label>
-            <div class="control">
-              <textarea
-                class="textarea is-primary"
-                placeholder="Primary textarea"
-                name="antFam"
-                id="antFam"
-                required
-              ></textarea>
-            </div>
-          </div>
-        </section>
-        <footer class="modal-card-foot">
-          <button class="button is-success" type="submit">Save changes</button>
-          <button class="button close-modal-button">Cancel</button>
-        </footer>
-      </form>
+      <section class="modal-card-body">
+        <input class="input is-link" type="text" placeholder="Link input">
+        <input class="input is-link" type="text" placeholder="Link input">
+        <input class="input is-link" type="text" placeholder="Link input">
+        <input class="input is-link" type="text" placeholder="Link input">
+        <input class="input is-link" type="text" placeholder="Link input">
+        <input class="input is-link" type="text" placeholder="Link input">
+      </section>
+      <footer class="modal-card-foot">
+        <button class="button is-success">Save changes</button>
+        <button class="button close-modal-button">Cancel</button>
+      </footer>
     </div>
+  </div>
+
+  
+    <button class="modal-close is-large" aria-label="close"></button>
   </div>
 
   <section>
@@ -221,4 +92,8 @@
     </div>
   </section>
 </section>
-{% endblock %}
+  {% endblock %}
+
+    
+  
+

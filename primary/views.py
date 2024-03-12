@@ -1,11 +1,13 @@
 from django.shortcuts import render, redirect
 from .forms import CustomUserCreationForm, PersonaForm, DoctorForm
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.models import User
+from django.db import IntegrityError
 from django.core.exceptions import ValidationError
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
-from django.urls import reverse
+
 
 def home(request):
     return render(request, 'sections.html')
@@ -71,9 +73,6 @@ def login_custom(request):
     return render(request, 'login_custom.html', {'form': form})
 
 
-@login_required
+
 def profile(request):
-    user = request.user
-    username = user.username
-    request.session['username'] = username
-    return render(request, 'dashboard.html', {'username': username})
+    return render(request, 'profile.html')
