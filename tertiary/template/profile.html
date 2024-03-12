@@ -17,22 +17,22 @@
 <div class="container">
     <h1>Perfil</h1>
     <section class="container-fluid">
-        <form class="row g-3">
+        <form class="row g-3" method="post">
             <div class="col-md-2">
                 <label for="inputDni" class="form-label">DNI</label>
-                <input type="text" class="form-control" id="inputDni">
+                <input type="text"  class="form-control" id="inputDni" value="{{ doctor.id_persona.dni }}">
             </div>
             <div class="col-md-5">
                 <label for="inputNombres" class="form-label">Nombres</label>
-                <input type="text" maxlength="50" class="form-control" id="inputNombres">
+                <input type="text" maxlength="50" class="form-control" id="inputNombres" value="{{ doctor.id_persona.nombres }}">
             </div>
             <div class="col-md-5">
                 <label for="inputApellidos" class="form-label">Apellidos</label>
-                <input type="text" maxlength="50" class="form-control" id="inputApellidos">
+                <input type="text" maxlength="50" class="form-control" id="inputApellidos" value="{{ doctor.id_persona.apellidos }}">
             </div>
             <div class="col-md-3">
                 <label for="inputSenecyt" class="form-label">Registro Senecyt</label>
-                <input type="text" maxlength="30" class="form-control" id="inputSenecyt">
+                <input type="text" maxlength="30" class="form-control" id="inputSenecyt" {{ doctor.rec_senecyt}}>
             </div>
             <div class="col-md-3">
                 <label for="inputCorreo" class="form-label">Correo</label>
