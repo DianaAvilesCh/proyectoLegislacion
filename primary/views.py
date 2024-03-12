@@ -30,14 +30,14 @@ def register(request):
                 user.save()
                 login(request, user)
 
-                # Registro de persona asociada al usuario
-                nueva_persona = persona_form.save(commit=False)
-                nueva_persona.id_usuario = user
+                # Registro de persona
+                nueva_persona = persona_form.save(commit=False)                
                 nueva_persona.save()
 
                 # Registro de doctor asociado a la persona
                 nuevo_doctor = doctor_form.save(commit=False)
                 nuevo_doctor.id_persona = nueva_persona
+                nuevo_doctor.id_usuario = user
                 nuevo_doctor.save()
 
                 contexto['persona_form'] = persona_form
