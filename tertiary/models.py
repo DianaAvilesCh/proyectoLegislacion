@@ -11,7 +11,7 @@ class Persona(models.Model):
     sexo = models.CharField(max_length=10)
 
 class Doctor(models.Model):
-    id_persona = models.ForeignKey(Persona, on_delete=models.CASCADE, related_name='tertiary_personas')
+    id_persona = models.ForeignKey(Persona, on_delete=models.CASCADE)
     rec_senecyt = models.CharField(max_length=15)
     especialidad = models.CharField(max_length=100)
     institucion = models.CharField(max_length=100)

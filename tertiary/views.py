@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Doctor, Cita,Persona, DoctorPaciente
 from .forms import DoctorForm, CitaForm,PersonaForm
 from django.contrib.auth.decorators import login_required
@@ -31,11 +31,12 @@ def perfil_doctor(request):
     return render(request, 'template/profile.html', context)
 @login_required
 def lista_citas(request):
-    usuario = request.user
-    doctor = usuario.persona.doctor
-    citas = Cita.objects.filter(id_doctor_paciente__id_doctor=doctor)
-    return render(request, 'template/quotes.html', {'citas': citas})
+    # Obtiene la instancia de Doctor para el usuario actual
+    doctor = Doctor.objects.get(id_persona__id_usuario=request.user)
 
-def profile(request):
-    return
-##
+    # Obtiene todas las instancias de DoctorPaciente para el doctor actual
+    doctor_paciente_ids = DoctorPaciente.objects.filter(id_doctor=doctor).values_list('id', flat=True)
+
+    # Filtra las citas que pertenecen al doctor actual
+    citas = Cita.objects.filter(id_doctor_paciente__id__in=doctor_paciente_ids)
+    return render(request, 'template/quotes.html', {'citas': citas})
