@@ -1,0 +1,94 @@
+{% extends "base.html" %} {% block title %}Pacientes{% endblock %} 
+{%block content %}
+<section>
+  <br />
+  <div class="container is-fluid">
+    <div class="buttons">
+      <button class="button is-link modal-button" data-target="modal-patient">
+        <i class="fas fa-plus" style="padding-right: 0.2rem"></i>
+        Nuevo Paciente
+      </button>
+    </div>
+  </div>
+
+  <div class="modal" id="modal-patient">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+      <header class="modal-card-head">
+        <p class="modal-card-title">Modal title</p>
+        <button class="delete close-modal-button" aria-label="close"></button>
+      </header>
+      <section class="modal-card-body">
+        HOLA QUE HACE
+      </section>
+      <footer class="modal-card-foot">
+        <button class="button is-success">Save changes</button>
+        <button class="button close-modal-button">Cancel</button>
+      </footer>
+    </div>
+  </div>
+
+  
+    <button class="modal-close is-large" aria-label="close"></button>
+  </div>
+
+  <section>
+    <br />
+    <div class="container is-max-widescreen">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Teléfono</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>36</td>
+            <th>Diana Stefania</th>
+            <td>Aviles Chalaco</td>
+            <td>0957246630</td>
+            <td>
+              <button class="button is-warning">
+                <i class="fa-solid fa-eye"></i>
+              </button>
+              <button class="button is-info">
+                <i class="fa-solid fa-pencil"></i>
+              </button>
+              <button class="button is-primary">
+                <i class="fas fa-plus" style="padding-right: 0.2rem"></i>
+                Const. Vital
+              </button>
+            </td>
+          </tr>
+          <tr>
+            <td>26</td>
+            <th>Deicy Margarita</th>
+            <td>Chalaco Castro</td>
+            <td>0991916489</td>
+            <td>
+              <button class="button is-warning">
+                <i class="fa-solid fa-eye"></i>
+              </button>
+              <button class="button is-info">
+                <i class="fa-solid fa-pencil"></i>
+              </button>
+              <button class="button is-primary">
+                <i class="fas fa-plus" style="padding-right: 0.2rem"></i>
+                Const. Vital
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</section>
+  {% endblock %}
+
+    
+  
+

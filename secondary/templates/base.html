@@ -1,0 +1,84 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{% block title %}{% endblock %}</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/gh/eliyantosarage/font-awesome-pro@main/fontawesome-pro-6.5.1-web/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="{% static 'css/header.css' %}" />
+  </head>
+  <body>
+    <header class="header">
+      <nav
+        class="navbar is-transparent"
+        style="padding-left: 1em; padding-right: 1.5em"
+      >
+        <div class="navbar-brand">
+          <a class="navbar-item logo" href="/dashboard">
+            <i class="fas fa-heartbeat" style="padding-right:0.2rem;"></i>
+            DocuHealth
+          </a>
+          <div
+            class="navbar-burger"
+            data-target="navMenu"
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+
+        <div id="navMenu" class="navbar-menu">
+          <div class="navbar-start">
+            <a class="navbar-item" href="/patient"> Pacientes </a>
+            <a class="navbar-item" href="#"> Citas </a>
+          </div>
+
+          <div class="navbar-end">
+            <div
+              class="navbar-item has-dropdown is-hoverable"
+              style="padding-right: 0.5em"
+            >
+              <a class="navbar-link" href="#" style="padding-right: 3.5em">
+                Opciones
+              </a>
+              <div class="navbar-dropdown is-boxed">
+                <a class="navbar-item" href="#"> Perfil </a>
+                <hr class="navbar-divider" />
+                <a class="navbar-item" href="#"> Cerrar Sesión </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main>{% block content %} {% endblock %}</main>
+
+    <footer class="footer">
+      <div class="content has-text-centered">
+        <p>
+          <strong>Bulma</strong> by
+          <a href="https://jgthms.com">Jeremy Thomas</a>. The source code is
+          licensed
+          <a href="http://opensource.org/licenses/mit-license.php">MIT</a>. The
+          website content is licensed
+          <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/"
+            >CC BY NC SA 4.0</a
+          >.
+        </p>
+      </div>
+    </footer>
+    <script src="{% static 'js/second.js' %}"></script>
+    {% block js%}
+    {% endblock js%}
+  </body>
+</html>
