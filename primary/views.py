@@ -22,13 +22,10 @@ def register(request):
         form = CustomUserCreationForm(request.POST)
         persona_form = PersonaForm(request.POST)
         doctor_form = DoctorForm(request.POST)
-
-        print(form.is_valid(),persona_form.is_valid(),doctor_form.is_valid(),form.errors.as_data,form.data)
         if form.is_valid() and persona_form.is_valid() and doctor_form.is_valid():
             try:
                 # Registro de usuario
                 user = form.save(commit=False)
-                print(form.cleaned_data['correo'])
                 user.username = form.cleaned_data['correo']
                 user.save()
                 login(request, user)
@@ -63,7 +60,6 @@ def register(request):
 def login_custom(request):
     if request.method == 'POST':
         form = AuthenticationForm(request, data=request.POST)
-        print(form.data,form.is_valid(),form.errors)
         if form.is_valid():
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
