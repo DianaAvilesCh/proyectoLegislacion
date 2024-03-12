@@ -75,5 +75,5 @@ def login_custom(request):
 def profile(request):
     user = request.user
     username = user.username
-
+    request.session['username'] = username
     return render(request, 'dashboard.html', {'username': username})
