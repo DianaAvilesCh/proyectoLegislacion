@@ -24,10 +24,8 @@ $(document).ready(function () {
   // Agrega un controlador de eventos al formulario
   $('#loginForm').submit(function (event) {
     event.preventDefault();
-
     // Muestra el indicador de carga antes de realizar la solicitud Ajax
     showLoader();
-
     // Realiza la solicitud Ajax
     $.ajax({
       type: 'POST',
@@ -36,6 +34,7 @@ $(document).ready(function () {
       success: function (data) {
         // Redirige a la nueva ruta si es necesario
         window.location.pathname = data.redirect_url;
+        print(data.redirect_url);
         // Oculta el indicador de carga
         hideLoader();
       },
@@ -48,18 +47,14 @@ $(document).ready(function () {
   // Agrega un controlador de eventos al formulario
   $('#registerForm').submit(function (event) {
     event.preventDefault();
-
     // Muestra el indicador de carga antes de realizar la solicitud Ajax
     showLoader();
-
     // Realiza la solicitud Ajax
     $.ajax({
       type: 'POST',
       url: '/register/',
       data: $('#registerForm').serialize(),
       success: function (data) {
-        
-
         // Redirige a la nueva ruta si es necesario
         window.location.pathname = data.redirect_url;
         // Oculta el indicador de carga
@@ -89,3 +84,16 @@ document.addEventListener('DOMContentLoaded', function () {
     
   });
 });
+
+function validarCedula() {
+  var cedulaInput = document.getElementById('dni');
+  var cedulaValue = cedulaInput.value.trim();
+  var cedulaRegex = /\d{10}/g;
+
+  if (!cedulaRegex.test(cedulaValue)) {
+      //alert('La cédula debe contener 10 dígitos numéricos.');
+      cedulaInput.value = ''; 
+  }
+}
+
+document.getElementById('dni').addEventListener('blur', validarCedula);
