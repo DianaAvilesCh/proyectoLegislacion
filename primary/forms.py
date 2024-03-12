@@ -44,12 +44,12 @@ class CustomUserCreationForm(UserCreationForm):
     
     def clean_correo(self):
             correo = self.cleaned_data['correo']
-            if User.objects.filter(persona__correo=correo).exists():
+            if doctor.objects.filter(id_persona__correo=correo).exists():
                 raise forms.ValidationError('Este correo electrónico ya está en uso.')
             return correo
     def clean_dni(self):
             dni = self.cleaned_data['dni']
-            if User.objects.filter(persona__dni=dni).exists():
+            if doctor.objects.filter(id_persona__dni=dni).exists():
                 raise forms.ValidationError('La cédula ya existe. Por favor, ingrese otra')
             return dni
     def clean_rec_senecyt(self):
