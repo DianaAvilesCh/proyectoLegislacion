@@ -157,8 +157,8 @@
           </div>
         </section>
         <footer class="modal-card-foot">
-          <button class="button is-success" type="submit">Save changes</button>
-          <button class="button close-modal-button">Cancel</button>
+          <button class="button is-success" type="submit">Guardar</button>
+          <button class="button close-modal-button">Cancelar</button>
         </footer>
       </form>
     </div>
@@ -193,7 +193,7 @@
             <td>{{ paciente.fecha_nacimiento }}</td>
             <td>{{ paciente.numero_ficha }}</td>
             <td>
-              <button class="button is-warning">
+              <button class="button is-warning modal-button" data-target="modal-const-vital">
                 <i class="fa-solid fa-eye"></i>
               </button>
               <button class="button is-info">
@@ -209,6 +209,162 @@
         </tbody>
       </table>
     </div>
+  </section>
+  <section>
+    </section>
+    <div class="modal" id="modal-const-vital">
+      <div class="modal-background"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title">Nuevo Paciente</p>
+          <button class="delete close-modal-button" aria-label="close"></button>
+        </header>
+        <form id="modal-registro" action="/patient/" method="POST">
+          {% csrf_token %}
+          <section class="modal-card-body">
+            <div class="field">
+              <div class="columns">
+                <div class="column">
+                  <label class="label">Nombre</label>
+                  <div class="control">
+                    <input
+                      class="input is-link"
+                      type="text"
+                      name="name"
+                      id="name"
+                      required
+                    />
+                  </div>
+                </div>
+                <div class="column">
+                  <label class="label">Apellido</label>
+                  <div class="control">
+                    <input
+                      class="input is-link"
+                      type="text"
+                      name="lastname"
+                      id="lastname"
+                      required
+                    />
+                  </div>
+                </div>
+              </div>
+  
+              <div class="columns">
+                <div class="column">
+                  <label class="label">Cédula</label>
+                  <div class="control">
+                    <input
+                      class="input is-link"
+                      type="text"
+                      name="dni"
+                      id="dni"
+                      required
+                    />
+                  </div>
+                </div>
+  
+                <div class="column">
+                  <label class="label">Teléfono</label>
+                  <div class="control">
+                    <input
+                      class="input is-link"
+                      type="text"
+                      name="phone"
+                      id="phone"
+                      required
+                    />
+                  </div>
+                </div>
+                <div class="column">
+                  <label class="label">Sexo</label>
+                  <div class="control">
+                    <div class="select is-link">
+                      <select name="sex" id="sex" required>
+                        <option>---- Seleccione ----</option>
+                        <option value="Femenino">Femenino</option>
+                        <option value="Masculino">Masculino</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="field">
+              <div class="columns">
+                <div class="column is-two-thirds">
+                  <label class="label">Correo</label>
+                  <div class="control">
+                    <input class="input is-link" type="text" name="email" id="email"
+                    required />
+                  </div>
+                </div>
+                <div class="column">
+                  <label class="label">Fecha de nacimiento</label>
+                  <div class="control">
+                    <input class="input is-link" type="date" name="birthdate" id="birthdate"
+                    required />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="field">
+              <div class="columns">
+                <div class="column">
+                  <label class="label">Dirección</label>
+                  <div class="control">
+                    <input
+                      class="input is-link"
+                      type="text"
+                      name="address"
+                      id="address"
+                      required
+                    />
+                  </div>
+                </div>
+                <div class="column">
+                  <label class="label">Tipo de Sangre</label>
+                  <div class="control">
+                    <input
+                      class="input is-link"
+                      type="text"
+                      name="blood"
+                      id="blood"
+                      required
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="field">
+              <label class="label">Antecedentes Personal</label>
+              <div class="control">
+                <textarea
+                  class="textarea is-primary"
+                  name="antPerson"
+                  id="antPerson"
+                  required
+                ></textarea>
+              </div>
+              <label class="label">Antecedentes Familiar</label>
+              <div class="control">
+                <textarea
+                  class="textarea is-primary"
+                  name="antFam"
+                  id="antFam"
+                  required
+                ></textarea>
+              </div>
+            </div>
+          </section>
+          <footer class="modal-card-foot">
+            <button class="button is-success" type="submit">Save changes</button>
+            <button class="button close-modal-button">Cancel</button>
+          </footer>
+        </form>
+      </div>
+    </div>
+  
   </section>
 </section>
 {% endblock %}
