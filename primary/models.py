@@ -12,7 +12,7 @@ class persona(models.Model):
     sexo = models.CharField(max_length=10)
 
     def __str__(self):
-        return self.dni
+        return f"{self.id}"
     
 class doctor(models.Model):
     id_usuario = models.ForeignKey(User, on_delete=models.CASCADE)
