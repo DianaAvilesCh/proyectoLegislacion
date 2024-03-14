@@ -193,13 +193,17 @@
             <td>{{ paciente.fecha_nacimiento }}</td>
             <td>{{ paciente.numero_ficha }}</td>
             <td>
-              <button class="button is-warning modal-button" data-target="modal-const-vital">
+              <button class="button is-warning">
                 <i class="fa-solid fa-eye"></i>
               </button>
               <button class="button is-info">
                 <i class="fa-solid fa-pencil"></i>
               </button>
-              <button class="button is-primary">
+              <button class="button is-primary modal-button btn-vital" 
+              data-id="{{ paciente.id}}" 
+              data-nombre="{{ paciente.id_persona.nombres}}" 
+              data-apellido="{{ paciente.id_persona.apellidos }}" 
+              data-target="modal-const-vital">
                 <i class="fas fa-plus" style="padding-right: 0.2rem"></i>
                 Const. Vital
               </button>
@@ -216,34 +220,42 @@
       <div class="modal-background"></div>
       <div class="modal-card">
         <header class="modal-card-head">
-          <p class="modal-card-title">Nuevo Paciente</p>
+          <p class="modal-card-title">Constantes Vitales (<span id="nombreSeleccionado"></span>)</p>
           <button class="delete close-modal-button" aria-label="close"></button>
         </header>
-        <form id="modal-registro" action="/patient/" method="POST">
+        <form id="modal-registro" action="/register_vitales/" method="POST">
           {% csrf_token %}
           <section class="modal-card-body">
+            <span id="idSeleccionado"></span>
             <div class="field">
               <div class="columns">
                 <div class="column">
-                  <label class="label">Nombre</label>
+                  <label class="label">Fecha</label>
+                  <div class="control">
+                    <input class="input is-link" type="date" name="date" id="date"
+                    required />
+                  </div>
+                </div>
+                <div class="column">
+                  <label class="label">Hora</label>
                   <div class="control">
                     <input
                       class="input is-link"
-                      type="text"
-                      name="name"
-                      id="name"
+                      type="time"
+                      name="time"
+                      id="time"
                       required
                     />
                   </div>
                 </div>
                 <div class="column">
-                  <label class="label">Apellido</label>
+                  <label class="label">Peso</label>
                   <div class="control">
                     <input
                       class="input is-link"
                       type="text"
-                      name="lastname"
-                      id="lastname"
+                      name="peso"
+                      id="peso"
                       required
                     />
                   </div>
@@ -252,108 +264,79 @@
   
               <div class="columns">
                 <div class="column">
-                  <label class="label">Cédula</label>
+                  <label class="label">Talla</label>
                   <div class="control">
                     <input
                       class="input is-link"
                       type="text"
-                      name="dni"
-                      id="dni"
+                      name="talla"
+                      id="talla"
                       required
                     />
                   </div>
-                </div>
-  
+                </div> 
                 <div class="column">
-                  <label class="label">Teléfono</label>
+                  <label class="label">Pulso</label>
                   <div class="control">
                     <input
                       class="input is-link"
                       type="text"
-                      name="phone"
-                      id="phone"
+                      name="pulso"
+                      id="pulso"
                       required
                     />
                   </div>
                 </div>
                 <div class="column">
-                  <label class="label">Sexo</label>
+                  <label class="label">Presión Arterial</label>
                   <div class="control">
-                    <div class="select is-link">
-                      <select name="sex" id="sex" required>
-                        <option>---- Seleccione ----</option>
-                        <option value="Femenino">Femenino</option>
-                        <option value="Masculino">Masculino</option>
-                      </select>
-                    </div>
+                    <input
+                      class="input is-link"
+                      type="text"
+                      name="arterial"
+                      id="arterial"
+                      required
+                    />
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="field">
-              <div class="columns">
-                <div class="column is-two-thirds">
-                  <label class="label">Correo</label>
-                  <div class="control">
-                    <input class="input is-link" type="text" name="email" id="email"
-                    required />
-                  </div>
-                </div>
-                <div class="column">
-                  <label class="label">Fecha de nacimiento</label>
-                  <div class="control">
-                    <input class="input is-link" type="date" name="birthdate" id="birthdate"
-                    required />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="field">
               <div class="columns">
                 <div class="column">
-                  <label class="label">Dirección</label>
+                  <label class="label">Frecuencia Cardiaca</label>
                   <div class="control">
                     <input
                       class="input is-link"
                       type="text"
-                      name="address"
-                      id="address"
+                      name="cardiaca"
+                      id="cardiaca"
+                      required
+                    />
+                  </div>
+                </div> 
+                <div class="column">
+                  <label class="label">Temperatura</label>
+                  <div class="control">
+                    <input
+                      class="input is-link"
+                      type="text"
+                      name="temp"
+                      id="temp"
                       required
                     />
                   </div>
                 </div>
                 <div class="column">
-                  <label class="label">Tipo de Sangre</label>
+                  <label class="label">Glucosa</label>
                   <div class="control">
                     <input
                       class="input is-link"
                       type="text"
-                      name="blood"
-                      id="blood"
+                      name="glucosa"
+                      id="glucosa"
                       required
                     />
                   </div>
                 </div>
-              </div>
-            </div>
-            <div class="field">
-              <label class="label">Antecedentes Personal</label>
-              <div class="control">
-                <textarea
-                  class="textarea is-primary"
-                  name="antPerson"
-                  id="antPerson"
-                  required
-                ></textarea>
-              </div>
-              <label class="label">Antecedentes Familiar</label>
-              <div class="control">
-                <textarea
-                  class="textarea is-primary"
-                  name="antFam"
-                  id="antFam"
-                  required
-                ></textarea>
               </div>
             </div>
           </section>

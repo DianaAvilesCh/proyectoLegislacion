@@ -38,3 +38,18 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+  console.log("ESTOY ENTRANDO");
+  // Obtener todos los botones que abren el modal
+  var botones = document.querySelectorAll('.btn-vital'); // Usar querySelectorAll y la clase .btn-vital
+  botones.forEach(function(boton) { // Iterar sobre todos los botones
+    boton.addEventListener('click', function () {
+      var id = this.getAttribute('data-id');
+      var nombre = this.getAttribute('data-nombre');
+      var apellido = this.getAttribute('data-apellido');
+      document.getElementById('idSeleccionado').textContent = id;
+      document.getElementById('nombreSeleccionado').textContent = nombre+" "+apellido;
+    });
+  });
+});
