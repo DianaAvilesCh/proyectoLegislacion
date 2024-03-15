@@ -1,6 +1,14 @@
 {% extends "base.html" %} {% block title %}Pacientes{% endblock %} 
 {%block content %}
 <section>
+  <div class="messages">
+      {% if messages %}
+        {% for message in messages %}
+          <div class="{{ message.extra_tags }}"><b>{{ message }}</b></div>
+        {% endfor %}
+      {% endif %}
+    </div>
+  </div>
   <br />
   <div class="container is-fluid">
     <div class="buttons">
@@ -177,7 +185,6 @@
             <th>Cédula</th>
             <th>Domicilio</th>
             <th>Fecha de Nacimiento</th>
-            <th># Ficha</th>
             <th>Acciones</th>
           </tr>
         </thead>
@@ -191,7 +198,6 @@
             <td>{{ paciente.id_persona.dni }}</td>
             <td>{{ paciente.domicilio }}</td>
             <td>{{ paciente.fecha_nacimiento }}</td>
-            <td>{{ paciente.numero_ficha }}</td>
             <td>
               <button class="button is-warning">
                 <i class="fa-solid fa-eye"></i>
@@ -200,9 +206,8 @@
                 <i class="fa-solid fa-pencil"></i>
               </button>
               <button class="button is-primary modal-button btn-vital" 
-              data-id="{{ paciente.id}}" 
-              data-nombre="{{ paciente.id_persona.nombres}}" 
-              data-apellido="{{ paciente.id_persona.apellidos }}" 
+              data-id="{{ paciente.id }}" 
+              data-cedula="{{ paciente.id_persona.dni }}" 
               data-target="modal-const-vital">
                 <i class="fas fa-plus" style="padding-right: 0.2rem"></i>
                 Const. Vital
@@ -215,7 +220,6 @@
     </div>
   </section>
   <section>
-    </section>
     <div class="modal" id="modal-const-vital">
       <div class="modal-background"></div>
       <div class="modal-card">
@@ -226,7 +230,7 @@
         <form id="modal-registro" action="/register_vitales/" method="POST">
           {% csrf_token %}
           <section class="modal-card-body">
-            <span id="idSeleccionado"></span>
+            <input type="text" id="idSeleccionado" name="idSeleccionado" hidden>
             <div class="field">
               <div class="columns">
                 <div class="column">
@@ -263,18 +267,6 @@
               </div>
   
               <div class="columns">
-                <div class="column">
-                  <label class="label">Talla</label>
-                  <div class="control">
-                    <input
-                      class="input is-link"
-                      type="text"
-                      name="talla"
-                      id="talla"
-                      required
-                    />
-                  </div>
-                </div> 
                 <div class="column">
                   <label class="label">Pulso</label>
                   <div class="control">
@@ -341,8 +333,8 @@
             </div>
           </section>
           <footer class="modal-card-foot">
-            <button class="button is-success" type="submit">Save changes</button>
-            <button class="button close-modal-button">Cancel</button>
+            <button class="button is-success" type="submit">Guardar</button>
+            <button class="button close-modal-button">Cancelar</button>
           </footer>
         </form>
       </div>

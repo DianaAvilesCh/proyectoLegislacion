@@ -30,4 +30,43 @@
   font-size: 1.2rem;
 }
 
+.info, .correcto, .ojo, .error, .validation {
+  border: 1px solid;
+  margin: 10px 0px;
+  padding:15px 10px 15px 50px;
+  background-repeat: no-repeat;
+  background-position: 10px center;
+  font-family:Arial, Helvetica, sans-serif;
+  font-size:18px;
+  text-align:left;
+  width: 25%;
+  float: right; 
+  opacity: 1;
+  animation: fadeOut 10s forwards;
+}
+.info {
+  color: #00529B;
+  background-color: #BDE5F8;
+}
+.correcto {
+  color: #4F8A10;
+  background-color: #DFF2BF;
+}
+.ojo {
+  color: #9F6000;
+  background-color: #FEEFB3;
+}
+.error {
+  color: #D8000C;
+  background-color: #FFBABA;
+}
 
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    display: none; /* Después de la animación, oculta el elemento */
+  }
+}

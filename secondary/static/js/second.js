@@ -20,6 +20,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
 });
 //js de modales
+/* document.addEventListener('DOMContentLoaded', () => {
+  // Encuentra todos los botones que abren modales
+  document.querySelectorAll('.modal-button').forEach(button => {
+    button.addEventListener('click', () => {
+      const modalID = button.getAttribute('data-target');
+      const modal = document.getElementById(modalID);
+      modal.classList.add('is-active');
+    });
+  });
+// Encuentra todos los elementos para cerrar modales
+  document.querySelectorAll('.close-modal-button').forEach(button => {
+    button.addEventListener('click', () => {
+      const modal = button.closest('.modal');
+      // Limpiar todos los campos de formulario dentro del modal
+      modal.querySelectorAll('input').forEach(input => {
+        input.value = ''; // Establece el valor del campo a una cadena vacía
+      });
+      modal.classList.remove('is-active');
+    });
+  });
+}); */
 document.addEventListener('DOMContentLoaded', () => {
   // Encuentra todos los botones que abren modales
   document.querySelectorAll('.modal-button').forEach(button => {
@@ -32,8 +53,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Encuentra todos los elementos para cerrar modales
   document.querySelectorAll('.close-modal-button').forEach(button => {
-    button.addEventListener('click', () => {
+    button.addEventListener('click', (event) => {
+      event.preventDefault(); // Evitar la acción por defecto del botón (enviar formulario)
       const modal = button.closest('.modal');
+      // Limpiar todos los campos de formulario dentro del modal
+      modal.querySelectorAll('input').forEach(input => {
+        input.value = ''; // Establece el valor del campo a una cadena vacía
+      });
       modal.classList.remove('is-active');
     });
   });
@@ -46,10 +72,9 @@ document.addEventListener('DOMContentLoaded', () => {
   botones.forEach(function(boton) { // Iterar sobre todos los botones
     boton.addEventListener('click', function () {
       var id = this.getAttribute('data-id');
-      var nombre = this.getAttribute('data-nombre');
-      var apellido = this.getAttribute('data-apellido');
-      document.getElementById('idSeleccionado').textContent = id;
-      document.getElementById('nombreSeleccionado').textContent = nombre+" "+apellido;
+      var cedula = this.getAttribute('data-cedula');
+      document.getElementById('idSeleccionado').value = id;
+      document.getElementById('nombreSeleccionado').textContent = cedula;
     });
   });
 });

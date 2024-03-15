@@ -17,3 +17,17 @@ class doctor_paciente(models.Model):
 
     def __str__(self):
             return f"{self.id_doctor}"
+        
+class const_vitales(models.Model):
+    id_paciente = models.ForeignKey(paciente,on_delete=models.CASCADE)
+    fecha = models.DateField(auto_now_add=False)
+    hora = models.TimeField(default='00:00:00')
+    temperatura = models.FloatField(null=True)
+    presion_art = models.FloatField(null=True)
+    pulse = models.FloatField(null=True)
+    frec_cardiaca = models.FloatField(null=True)
+    peso = models.FloatField(null=True)
+    glucosa = models.FloatField(null=True)
+
+    def __str__(self):
+            return f"{self.id_paciente}"

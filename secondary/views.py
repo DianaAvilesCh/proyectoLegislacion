@@ -1,6 +1,7 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, redirect
+from django.contrib import messages
 from primary.models import persona, doctor
-from secondary.models import paciente, doctor_paciente
+from secondary.models import paciente, doctor_paciente, const_vitales
 
 def dashboard(request):
     username = request.session.get('username', '')
@@ -11,6 +12,16 @@ def patient(request):
     print(username)
     persona_doctor = persona.objects.get(correo=username)
     doctor_obj = doctor.objects.get(id_persona=persona_doctor)
+
+    # Función o bloque para obtener la lista de pacientes
+    def obtener_lista_pacientes():
+        relaciones_doctor_paciente = doctor_paciente.objects.filter(id_doctor=doctor_obj)
+        lista_pacientes = []
+        for relacion in relaciones_doctor_paciente:
+            paciente_obj = paciente.objects.get(id=relacion.id_paciente_id)
+            lista_pacientes.append(paciente_obj)
+        return lista_pacientes
+
     if request.method == 'POST':
         dni = request.POST.get('dni')
         nombres = request.POST.get('name')
@@ -36,15 +47,35 @@ def patient(request):
         
         paciente_instancia = doctor_paciente(id_doctor=doctor_obj, id_paciente=paciente_instancia)
         paciente_instancia.save()
-        
-        return render(request, 'patient.html')
+
+        # Actualizar la lista de pacientes después de agregar uno nuevo
+        lista_pacientes = obtener_lista_pacientes()
+        return render(request, 'patient.html', {'pacientes': lista_pacientes})
     else:
-        relaciones_doctor_paciente = doctor_paciente.objects.filter(id_doctor=doctor_obj)
-        lista_pacientes = []
+        lista_pacientes = obtener_lista_pacientes()
+        return render(request, 'patient.html', {'pacientes': lista_pacientes})
+    
+
+def register_vitales(request):
+    if request.method == 'POST':
+        id_paciente = request.POST.get('idSeleccionado')
+        paciente_fill = paciente.objects.get(id=id_paciente)
+
+        fecha = request.POST.get('date')
+        hora = request.POST.get('time')
+        temperatura = request.POST.get('temp')
+        presion_art = request.POST.get('arterial')
+        pulse = request.POST.get('pulso')
+        frec_cardiaca = request.POST.get('cardiaca')
+        peso = request.POST.get('peso')
+        glucosa = request.POST.get('glucosa')
+
+        # Crear y guardar la instancia de Persona
+        constantes_vitales = const_vitales(id_paciente = paciente_fill, fecha = fecha, hora=hora, 
+                                           temperatura=temperatura,presion_art=presion_art, pulse=pulse,
+                                           frec_cardiaca=frec_cardiaca, peso=peso, glucosa=glucosa)
+        constantes_vitales.save()
         
-        for relacion in relaciones_doctor_paciente:
-            paciente_obj = paciente.objects.get(id=relacion.id_paciente_id)
-            lista_pacientes.append(paciente_obj)
-        print(lista_pacientes)
-            
-        return render(request, 'patient.html',{'pacientes': lista_pacientes})
+        messages.success(request, '¡Registro exitoso!', extra_tags ='correcto')
+
+    return redirect(patient)
