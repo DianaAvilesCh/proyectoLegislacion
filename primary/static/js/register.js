@@ -1,10 +1,12 @@
 $(document).ready(function () {
   $('#registerForm').submit(function (event) {
     event.preventDefault();
+
     var dniSinGuion = $('#dni').val().replace('-', '');
     $('#dni').val(dniSinGuion);
     var senecySinGuion = $('#rec_senecyt').val().replace('-', '');
     $('#rec_senecyt').val(senecySinGuion);
+
     showLoader();
     // Realiza la solicitud Ajax
     $.ajax({
@@ -37,19 +39,12 @@ $(document).ready(function () {
 });
 document.addEventListener('DOMContentLoaded', function () {
   var mostrarPasswordCheckbox = document.getElementById('mostrarPassword');
-  var passwordInput = document.getElementById('password');
   var passwordInput1 = document.getElementById('password1');
   var passwordInput2 = document.getElementById('password2');
 
   mostrarPasswordCheckbox.addEventListener('change', function () {
-    // Cambiar el tipo de entrada del campo de contraseña
-    if(passwordInput==null){
-      passwordInput1.type = this.checked ? 'text' : 'password';
-      passwordInput2.type = this.checked ? 'text' : 'password';
-    }else{
-      passwordInput.type = this.checked ? 'text' : 'password';
-    }
-    
+    passwordInput1.type = this.checked ? 'text' : 'password';
+    passwordInput2.type = this.checked ? 'text' : 'password';    
   });
 });
 
@@ -65,17 +60,6 @@ function validarCedula() {
   }  
   cedulaInput.value = cedulaValue;
 }
-function validarSenecyt() {
-  var senecytInput = document.getElementById('rec_senecyt');
-  var senecytValue = senecytInput.value.trim();
-  
-  var formattedValue = senecytValue.replace(/(\d{4})(\d{2})(\d{7})/, '$1-$2-$3');
 
-  senecytInput.value = formattedValue;
 
-}
-
-//document.getElementById('dni').addEventListener('blur', validarCedula);
 document.getElementById('dni').addEventListener('input', validarCedula);
-
-document.getElementById('rec_senecyt').addEventListener('input', validarSenecyt);
