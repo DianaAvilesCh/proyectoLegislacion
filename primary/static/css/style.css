@@ -315,6 +315,10 @@
 .formulario .mostrarPassword label{
   margin: 5px;
   font-size: 1.5rem;
+  cursor: pointer;
+}
+.formulario .mostrarPassword input{
+  cursor:pointer;
 }
 .formulario .column{
   display: flex;
@@ -407,7 +411,12 @@
   z-index: 9999; /* Z-index alto para que esté encima de todo */
   display: none;
 }
-
+.formulario #error-message{
+  text-align: center;
+  color: red;
+  margin: 5px;
+  padding: 5px;
+}
 
 @keyframes spin {
   0% { transform: rotate(0deg); }

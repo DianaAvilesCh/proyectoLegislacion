@@ -34,29 +34,37 @@ class CustomUserCreationForm(UserCreationForm):
     
     def __init__(self, *args, **kwargs):
         super(CustomUserCreationForm, self).__init__(*args, **kwargs)
-        self.fields['username'].label = 'Correo Electrónico'
-        self.fields['username'].help_text = 'Ingrese un correo electrónico válido.'
-        self.fields['password2'].help_text = 'Repite la contraseña'
+        self.dni = self['dni'].value()
 
     def clean(self):
         cleaned_data = super().clean()
         cleaned_data['username'] = cleaned_data.get('correo', '')
     
     def clean_correo(self):
-            correo = self.cleaned_data['correo']
-            if doctor.objects.filter(id_persona__correo=correo).exists():
-                raise forms.ValidationError('Este correo electrónico ya está en uso.')
-            return correo
+        correo = self.cleaned_data['correo']
+        if doctor.objects.filter(id_persona__correo=correo).exists():
+            raise forms.ValidationError('Este correo electrónico ya está en uso.')
+        return correo
+    
     def clean_dni(self):
-            dni = self.cleaned_data['dni']
-            if doctor.objects.filter(id_persona__dni=dni).exists():
-                raise forms.ValidationError('La cédula ya existe. Por favor, ingrese otra')
-            return dni
+        dni = self.cleaned_data['dni']
+
+        if doctor.objects.filter(id_persona__dni=dni).exists():
+            raise forms.ValidationError('La cédula ya existe. Por favor, ingrese otra')
+
+        return dni
+    
     def clean_rec_senecyt(self):
-            rec_senecyt = self.cleaned_data['rec_senecyt']
-            if User.objects.filter(doctor__rec_senecyt=rec_senecyt).exists():
-                raise forms.ValidationError('El Reg. Senecyt ya existe. Por favor, ingrese otra')
-            return rec_senecyt
+        rec_senecyt = self.cleaned_data['rec_senecyt']
+
+        if User.objects.filter(doctor__rec_senecyt=rec_senecyt).exists():
+            raise forms.ValidationError('El Reg. Senecyt ya existe. Por favor, ingrese otra')
+
+        if len(rec_senecyt) > 15:
+            raise forms.ValidationError('El Reg. Senecyt debe tener como máximo 15 caracteres.')
+
+        return rec_senecyt
+
 
     def clean_password2(self):
         cleaned_data = super().clean()
@@ -79,12 +87,6 @@ class CustomUserCreationForm(UserCreationForm):
             raise forms.ValidationError(errors)
 
         return password2
-    
-    def clean_rec_senecyt(self):
-        rec_senecyt = self.cleaned_data.get('rec_senecyt')
-        if len(rec_senecyt) > 15:
-            raise forms.ValidationError('El Registro SENECYT debe tener como máximo 10 caracteres.')
-        return rec_senecyt
 
     def save(self, commit=True):
         user = super().save(commit=False)

@@ -37,9 +37,10 @@ def register(request):
                 nuevo_doctor.id_persona = nueva_persona
                 nuevo_doctor.id_usuario = user
                 nuevo_doctor.save()
-
+                print("persona_form,doctor_form")
                 contexto['persona_form'] = persona_form
                 contexto['doctor_form'] = doctor_form
+                
 
                 return JsonResponse({'redirect_url': 'login_custom'})
             except ValidationError as e:
@@ -47,9 +48,11 @@ def register(request):
                     for message in messages:
                         form.add_error(field, message)
                         print(f"Error en el campo '{field}': {message}")
+                        return JsonResponse({'error': True, 'formData': request.POST})
         else:
             response = render(request, 'register.html', {'form': form, 'persona_form': persona_form, 'doctor_form': doctor_form})
-            return response
+            form_html = response.content.decode('utf-8')
+            return JsonResponse({'error': True, 'formHTML': form_html})
 
     contexto = {'form': form, 'persona_form': persona_form, 'doctor_form': doctor_form}
     return render(request, 'register.html', contexto)
@@ -58,22 +61,18 @@ def register(request):
 def login_custom(request):
     if request.method == 'POST':
         form = AuthenticationForm(request, data=request.POST)
-        if form.is_valid():
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password')
-            user = authenticate(username=username, password=password)
-            if user is not None and user.is_active:
-                login(request, user)
-                return JsonResponse({'redirect_url': 'profile'})
-    else:
-        form = AuthenticationForm()
-
-    return render(request, 'login_custom.html', {'form': form})
-
-
-@login_required
-def profile(request):
-    user = request.user
-    username = user.username
-    request.session['username'] = username
-    return render(request, 'dashboard.html', {'username': username})
+        try:
+            if form.is_valid():
+                username = form.cleaned_data.get('username')
+                password = form.cleaned_data.get('password')
+                user = authenticate(username=username, password=password)
+                if user is not None and user.is_active:
+                    login(request, user)
+                    request.session['username'] = username
+                    print(user)
+                    return JsonResponse({'result': '1','redirect_url': 'dashboard'})
+            else:
+                return JsonResponse({'result': '0', 'message': 'Las credenciales de acceso son incorrectas'})
+        except Exception as e:
+            return JsonResponse({'result': '0', 'message': 'Las credenciales de acceso son incorrectas'})
+    return render(request, 'login_custom.html')
