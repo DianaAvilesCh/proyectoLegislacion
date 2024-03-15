@@ -1,10 +1,12 @@
 $(document).ready(function () {
   $('#registerForm').submit(function (event) {
     event.preventDefault();
+
     var dniSinGuion = $('#dni').val().replace('-', '');
     $('#dni').val(dniSinGuion);
     var senecySinGuion = $('#rec_senecyt').val().replace('-', '');
     $('#rec_senecyt').val(senecySinGuion);
+
     showLoader();
     // Realiza la solicitud Ajax
     $.ajax({
@@ -65,17 +67,6 @@ function validarCedula() {
   }  
   cedulaInput.value = cedulaValue;
 }
-function validarSenecyt() {
-  var senecytInput = document.getElementById('rec_senecyt');
-  var senecytValue = senecytInput.value.trim();
-  
-  var formattedValue = senecytValue.replace(/(\d{4})(\d{2})(\d{7})/, '$1-$2-$3');
 
-  senecytInput.value = formattedValue;
 
-}
-
-//document.getElementById('dni').addEventListener('blur', validarCedula);
 document.getElementById('dni').addEventListener('input', validarCedula);
-
-document.getElementById('rec_senecyt').addEventListener('input', validarSenecyt);
