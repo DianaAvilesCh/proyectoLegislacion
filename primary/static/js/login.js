@@ -29,17 +29,10 @@ $(document).ready(function () {
 document.addEventListener('DOMContentLoaded', function () {
     var mostrarPasswordCheckbox = document.getElementById('mostrarPassword');
     var passwordInput = document.getElementById('password');
-    var passwordInput1 = document.getElementById('password1');
-    var passwordInput2 = document.getElementById('password2');
   
     mostrarPasswordCheckbox.addEventListener('change', function () {
-      // Cambiar el tipo de entrada del campo de contraseña
-      if(passwordInput==null){
-        passwordInput1.type = this.checked ? 'text' : 'password';
-        passwordInput2.type = this.checked ? 'text' : 'password';
-      }else{
-        passwordInput.type = this.checked ? 'text' : 'password';
-      }
+
+      passwordInput.type = this.checked ? 'text' : 'password';
       
     });
   });

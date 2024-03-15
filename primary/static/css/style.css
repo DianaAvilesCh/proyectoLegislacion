@@ -315,7 +315,6 @@
 .formulario .mostrarPassword label{
   margin: 5px;
   font-size: 1.5rem;
-  cursor: pointer;
 }
 .formulario .mostrarPassword input{
   cursor:pointer;
