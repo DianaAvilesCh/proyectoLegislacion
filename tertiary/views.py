@@ -57,3 +57,35 @@ def lista_citas(request):
     }
 
     return render(request, 'template/quotes.html', context)
+
+
+@login_required
+def editar_cita(request, cita_id):
+    cita_instancia = get_object_or_404(cita, id=cita_id)
+
+    if request.method == 'POST':
+       form = CitaForm(request.POST, instance=cita_instancia)
+       if form.is_valid():
+            form.save()
+            return redirect('editar_cita', cita_id=cita_id)
+
+    else:
+        form = CitaForm(instance=cita_instancia)
+    return render(request, 'template/editar_cita.html',  {'form': form})
+
+
+@login_required
+def eliminar_cita(request, cita_id):
+    cita_instancia = get_object_or_404(cita, id=cita_id)
+
+    if request.method == 'POST':
+        # Elimina la cita
+        cita_instancia.delete()
+        # Después de eliminar la cita, redirige a la página donde se muestre la lista de citas o a donde desees
+        return redirect('lista_citas')
+
+    # Si el método de solicitud no es POST, renderiza la confirmación de eliminación de citas
+    context = {
+        'cita': cita_instancia
+    }
+    return render(request, 'template/confirmar_eliminacion.html', context)
