@@ -50,6 +50,7 @@ def patient(request):
 
         # Actualizar la lista de pacientes después de agregar uno nuevo
         lista_pacientes = obtener_lista_pacientes()
+        messages.success(request, '¡Registro exitoso!', extra_tags ='correcto')
         return render(request, 'patient.html', {'pacientes': lista_pacientes})
     else:
         lista_pacientes = obtener_lista_pacientes()
