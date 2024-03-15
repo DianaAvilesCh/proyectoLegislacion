@@ -42,16 +42,12 @@ def perfil_doctor(request):
 
 @login_required
 def lista_citas(request):
-    # Primero, obtén la instancia de doctor para el usuario actual.
     doctor_instance = doctor.objects.get(id_usuario=request.user)
 
-    # Luego, obtén todos los pares DoctorPaciente para este doctor.
     doctor_paciente_list = doctor_paciente.objects.filter(id_doctor=doctor_instance)
 
-    # Ahora, obtén todas las citas para estos pares DoctorPaciente.
-    citas = cita.objects.filter(id_doctor_paciente__in=doctor_paciente_list).order_by('fecha', 'hora')
+    citas = cita.objects.filter(id_doctor_paciente__in=doctor_paciente_list).order_by('fecha', 'hora','detalle')
 
-    # Pasar las citas al contexto del template.
     context = {
         'citas': citas
     }
@@ -71,7 +67,7 @@ def editar_cita(request, cita_id):
 
     else:
         form = CitaForm(instance=cita_instancia)
-    return render(request, 'template/editar_cita.html',  {'form': form})
+    return render(request, 'template/quotes.html',  {'form': form})
 
 
 @login_required
@@ -81,11 +77,9 @@ def eliminar_cita(request, cita_id):
     if request.method == 'POST':
         # Elimina la cita
         cita_instancia.delete()
-        # Después de eliminar la cita, redirige a la página donde se muestre la lista de citas o a donde desees
         return redirect('lista_citas')
 
-    # Si el método de solicitud no es POST, renderiza la confirmación de eliminación de citas
     context = {
         'cita': cita_instancia
     }
-    return render(request, 'template/confirmar_eliminacion.html', context)
+    return render(request, 'template/quotes.html', context)

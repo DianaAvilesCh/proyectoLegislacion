@@ -33,7 +33,7 @@
                         <td>{{ cita.hora }}</td>
                         <td>{{ cita.detalle }}</td>
                         <td>
-                            <button type="button" class="button is-info" data-toggle="modal"
+                            <button type="button" class="button is-link modal-button"
                                     data-target="#modalEditarCita{{ cita.pk }}">
                                     <i class="fa-solid fa-pencil"></i>
                             </button>
@@ -49,39 +49,37 @@
     </div>
     {% for cita in citas %}
         <!-- Modal para editar cita -->
-        <div class="modal fade" id="modalEditarCita{{ cita.pk }}" tabindex="-1" role="dialog"
+        <div class="modal" id="modalEditarCita{{ cita.pk }}"
              aria-labelledby="modalEditarCitaLabel{{ cita.pk }}" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="modalEditarCitaLabel{{ cita.pk }}">Editar Cita</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <form method="post" action="{% url 'editar_cita' cita.pk %}">
+            <div class="modal-card">
+                <header class="modal-card-head">
+                    <h5 class="modal-card-title" id="modalEditarCitaLabel{{ cita.pk }}">Editar Cita</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </header>
+                <div class="modal-card-body">
+                    <form method="post" action="{% url 'editar_cita' cita.pk %}">
 
-                            {% csrf_token %}
-                            <div class="form-group">
-                                <label for="fecha">Fecha:</label>
-                                <input type="date" class="form-control" id="fecha" name="fecha" required
-                                       value="{{ cita.fecha }}">
-                            </div>
-                            <div class="form-group">
-                                <label for="hora">Hora:</label>
-                                <input type="time" class="form-control" id="hora" name="hora" required
-                                       value="{{ cita.hora }}">
-                            </div>
-                            <div class="form-group">
-                                <label for="detalle">Detalle:</label>
-                                <input type="text" class="form-control" id="detalle" name="detalle" required
-                                       value="{{ cita.detalle }}">
-                            </div>
-                            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                        </form>
-                    </div>
+                        {% csrf_token %}
+                        <div class="field">
+                            <label for="fecha">Fecha:</label>
+                            <input type="date" class="form-control" id="fecha" name="fecha" required
+                                   value="{{ cita.fecha }}">
+                        </div>
+                        <div class="field">
+                            <label for="hora">Hora:</label>
+                            <input type="time" class="form-control" id="hora" name="hora" required
+                                   value="{{ cita.hora }}">
+                        </div>
+                        <div class="field">
+                            <label for="detalle">Detalle:</label>
+                            <input type="text" class="form-control" id="detalle" name="detalle" required
+                                   value="{{ cita.detalle }}">
+                        </div>
+                        <button type="submit" class="button is-primary">Guardar Cambios</button>
+                        <button type="button" class="button is-primary" data-dismiss="modal">Cancelar</button>
+                    </form>
                 </div>
             </div>
         </div>
