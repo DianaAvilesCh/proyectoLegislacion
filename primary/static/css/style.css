@@ -11,6 +11,9 @@
     --box-shadow:.5rem .5rem 0 rgba(22, 160, 133, .2);
     --text-shadow:.4rem .4rem 0 rgba(0, 0, 0, .2);
     --border:.2rem solid var(--azul);
+    --rojo:#ff9e81;
+    --rojo22:#9F6000;
+    --border-rojo:.2rem solid var(--rojo22);
   }
  
   *{
@@ -415,6 +418,16 @@
   color: red;
   margin: 5px;
   padding: 5px;
+}
+.alert-errors{
+  background: #FFBABA;
+  border-radius: .5rem;
+  border: var(--border-rojo);
+  padding:2.5rem ;
+  display: none;
+}
+.alert{
+  font-size: 11px;
 }
 
 @keyframes spin {

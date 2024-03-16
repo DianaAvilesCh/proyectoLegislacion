@@ -88,14 +88,10 @@
                 <div class="textloader" >Cargando</div>
             </div>
             <div class="input-box">
-                {% if form.errors %}
-                    <strong>Error items:</strong>
-                        {% for field, errors in form.errors.items %}
-                            {% for error in errors %}
-                                <li>{{ field }}: {{ error }}</li>
-                            {% endfor %}
-                        {% endfor %}
-                {% endif %}
+                <div id="alertMessage" class="alert-errors" >
+                    <h2> <i class="fa-solid fa-triangle-exclamation"></i> Error</h2>
+                </div>
+                
             </div>
             
             <button type="submit">Registrarse</button>

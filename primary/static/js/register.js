@@ -1,42 +1,33 @@
 $(document).ready(function () {
   $('#registerForm').submit(function (event) {
     event.preventDefault();
-
-    var dniSinGuion = $('#dni').val().replace('-', '');
-    $('#dni').val(dniSinGuion);
-    var senecySinGuion = $('#rec_senecyt').val().replace('-', '');
-    $('#rec_senecyt').val(senecySinGuion);
-
     showLoader();
-    // Realiza la solicitud Ajax
     $.ajax({
       type: 'POST',
       url: '/register/',
       data: $('#registerForm').serialize(),
       success: function (data) {
-        //console.error("Error en la solicitud AJAX:",data,data.formHTML)
-
-        if(data.redirect_url=="login_custom")
+        if (data.result == 'success') {
           window.location.pathname = data.redirect_url;
-        else
-        {
-          var registerForm = document.getElementById('registerForm');
-          registerForm.innerHTML = data.formHTML;
-          validarCedula()
-          validarSenecyt()
+        } 
+        else{
+          for (var field in data.errors) {
+            for (var i = 0; i < data.errors[field].length; i++) {
+              mostrarAlerta(data.errors[field][i], 'danger', '#alertMessage');
+            }
+          }
         }
-          
-        // Oculta el indicador de carga
         hideLoader();
       },
       error: function (xhr, textStatus, errorThrown) {
-        // Manejar errores si es necesario
         console.error("Error en la solicitud AJAX:", textStatus, errorThrown);
         hideLoader();
       }
     });
   });
+
 });
+
 document.addEventListener('DOMContentLoaded', function () {
   var mostrarPasswordCheckbox = document.getElementById('mostrarPassword');
   var passwordInput1 = document.getElementById('password1');
@@ -48,18 +39,14 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 });
 
-function validarCedula() {
-  var cedulaInput = document.getElementById('dni');
-  var cedulaValue = cedulaInput.value.trim();
-  var cedulaRegex = /\d{10}/g;
-  if (cedulaRegex.test(cedulaValue)) {
-      cedulaValue = `${cedulaValue.slice(0, 9)}-${cedulaValue.slice(9)}`;
-  }
-  if(cedulaValue.length == 10 && cedulaValue.slice(9)=="-"){
-      cedulaValue = `${cedulaValue.slice(0, 9)}`;
-  }  
-  cedulaInput.value = cedulaValue;
+function mostrarAlerta(mensaje, tipo,direccion) {
+  var alertMessage = $(direccion);
+
+  var errorHTML = '<div class="alert alert-' + tipo + '">' + mensaje + '</div>';
+
+  alertMessage.append(errorHTML).show();
+  setTimeout(function () {
+      alertMessage.hide();
+      alertMessage.empty();
+  }, 15000); 
 }
-
-
-document.getElementById('dni').addEventListener('input', validarCedula);

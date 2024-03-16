@@ -40,25 +40,32 @@ class CustomUserCreationForm(UserCreationForm):
         cleaned_data = super().clean()
         cleaned_data['username'] = cleaned_data.get('correo', '')
     
-    def clean_correo(self):
-        correo = self.cleaned_data['correo']
-        if doctor.objects.filter(id_persona__correo=correo).exists():
-            raise forms.ValidationError('Este correo electrónico ya está en uso.')
-        return correo
     
     def clean_dni(self):
         dni = self.cleaned_data['dni']
 
-        if doctor.objects.filter(id_persona__dni=dni).exists():
-            raise forms.ValidationError('La cédula ya existe. Por favor, ingrese otra')
+        if persona.objects.filter(dni=dni).exists():
+            raise forms.ValidationError('La cédula ya está en uso. Por favor, ingrese otra')
 
         return dni
+    
+    def clean_correo(self):
+        correo = self.cleaned_data['correo']
+        if persona.objects.filter(correo=correo).exists():
+            raise forms.ValidationError('Este correo electrónico ya está en uso. Por favor, ingrese otro')
+        return correo
+    
+    def clean_telefono(self):
+        telefono = self.cleaned_data['telefono']
+        if persona.objects.filter(telefono=telefono).exists():
+            raise forms.ValidationError('Este teléfono ya está en uso. Por favor, ingrese otro')
+        return telefono
     
     def clean_rec_senecyt(self):
         rec_senecyt = self.cleaned_data['rec_senecyt']
 
-        if User.objects.filter(doctor__rec_senecyt=rec_senecyt).exists():
-            raise forms.ValidationError('El Reg. Senecyt ya existe. Por favor, ingrese otra')
+        if doctor.objects.filter(rec_senecyt=rec_senecyt).exists():
+            raise forms.ValidationError('El Reg. Senecyt ya está en uso. Por favor, ingrese otra')
 
         if len(rec_senecyt) > 15:
             raise forms.ValidationError('El Reg. Senecyt debe tener como máximo 15 caracteres.')
