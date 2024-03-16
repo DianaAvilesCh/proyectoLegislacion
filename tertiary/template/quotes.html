@@ -23,6 +23,7 @@
 
         {#    <a href="{% url 'crear_cita' %}" class="btn btn-primary">Agregar Nueva Cita</a>#}
         <div class="container is-max-widescreen">
+
             <table class="table">
                 <thead>
                 <tr>
@@ -62,9 +63,14 @@
     </div>
     <div class="modal" id="modalAgregarCita">
         <div class="modal-background"></div>
-        <div class="modal-content">
-            <div class="box">
-                <h3 class="title">Agregar Nueva Cita</h3>
+        <div class="modal-card">
+            <div>
+                <header class="modal-card-head">
+                    <h5 class="modal-card-title">Editar Cita</h5>
+                    <button class="delete" aria-label="Close"
+                            onclick="closeModal('modalAgregarCita')"></button>
+
+                </header>
                 <form method="post" action="{% url 'agregar_cita' %}">
                     {% csrf_token %}
                     <div class="modal-card-body">
@@ -105,7 +111,9 @@
                     <!-- Botones para guardar o cancelar la cita -->
                     <div class="modal-card-foot">
                         <button type="submit" class="button is-primary">Guardar</button>
-                        <button type="button" class="button" data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="button" onclick="closeModal('modalAgregarCita')">
+                                Cancelar
+                            </button>
                     </div>
                 </form>
 
