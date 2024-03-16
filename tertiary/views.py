@@ -5,6 +5,7 @@ from tertiary.models import cita
 from django.contrib import messages
 from .forms import DoctorForm, CitaForm, PersonaForm
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
 
 
 @login_required
@@ -73,6 +74,7 @@ def editar_cita(request, pk):
     # Si no es POST o si el formulario no es válido, simplemente redirige para mantener la simplicidad.
     return redirect('lista_citas', {'form': form})
 
+
 @login_required
 def eliminar_cita(request, pk):
     cita_instancia = get_object_or_404(cita, pk=pk)
@@ -83,6 +85,47 @@ def eliminar_cita(request, pk):
         return redirect('lista_citas')
 
     return render(request, 'template/quotes.html', {'cita': cita_instancia})
+
+
+@login_required
+def agregar_cita(request):
+    doctor_instance = doctor.objects.get(id_usuario=request.user)
+    doctor_paciente_list = doctor_paciente.objects.filter(id_doctor=doctor_instance)
+    print(doctor_paciente_list)
+    if request.method == 'POST':
+        form = CitaForm(request.POST)
+        if form.is_valid():
+            cita_instancia = form.save(commit=False)
+            id_doctor_paciente = request.POST.get('doctor_paciente')  # Asigna el primer doctor_paciente de la lista
+            print("Valor de doctor_paciente:", id_doctor_paciente)
+            doctor_paciente_instancia = get_object_or_404(doctor_paciente, id=id_doctor_paciente)
+            cita_instancia.id_doctor_paciente = doctor_paciente_instancia
+            cita_instancia.save()
+            messages.success(request, 'Cita agregada con éxito.')
+            return redirect('lista_citas')
+        else:
+            messages.error(request, 'Por favor corrija los errores abajo.')
+    else:
+        form = CitaForm()
+
+    return render(request, 'template/quotes.html', {'form': form, 'doctor_paciente_list': doctor_paciente_list})
+
+
+def obtener_pacientes(request):
+    doctor_instance = doctor.objects.get(id_usuario=request.user)
+    doctor_paciente_list = doctor_paciente.objects.filter(id_doctor=doctor_instance)
+    pacientes = [
+        {
+            'id': relacion.id_paciente.id,
+            'id_persona': {
+                'nombres': relacion.id_paciente.id_persona.nombres,
+                'apellidos': relacion.id_paciente.id_persona.apellidos
+            }
+        }
+        for relacion in doctor_paciente_list
+    ]
+    return JsonResponse(pacientes, safe=False)
+
 
 def quotes(request):
     return render(request, 'template/quotes.html')
