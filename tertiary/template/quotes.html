@@ -2,7 +2,16 @@
 
 
 {% block content %}
-     <br />
+    <br/>
+    <div class="messages">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="{{ message.extra_tags }}"><b>{{ message }}</b></div>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+
     <div class="container is-fluid">
         <div class="buttons">
             <button class="button is-link modal-button" data-target="modal-patient">
@@ -27,19 +36,22 @@
                 <tbody>
                 {% for cita in citas %}
                     <tr>
-                    <td>{{ cita.id }}</td>
+                        <td>{{ cita.id }}</td>
                         <td>{{ cita.id_doctor_paciente.id_paciente.id_persona.nombres }} {{ cita.id_doctor_paciente.id_paciente.id_persona.apellidos }}</td>
                         <td>{{ cita.fecha }}</td>
-                        <td>{{ cita.hora }}</td>
+                        <td>{{ cita.hora|time:"H:i" }}</td>
                         <td>{{ cita.detalle }}</td>
                         <td>
                             <button type="button" class="button is-link modal-button"
-                                    data-target="#modalEditarCita{{ cita.pk }}">
-                                    <i class="fa-solid fa-pencil"></i>
+                                    onclick="openModal('modalEditarCita{{ cita.pk }}')"
+                            >
+                                <i class="fa-solid fa-pencil"></i>
                             </button>
-                            <a href="{% url 'eliminar_cita' cita.pk %}" class="button is-danger">
-                                 <i class="fa-solid fa-times"></i>
-                            </a>
+
+                            <button type="button" class="button is-link is-danger"
+                                    onclick="openModal('modalEliminarCita{{ cita.pk }}')">
+                                <i class="fas fa-times"></i>
+                            </button>
                         </td>
                     </tr>
                 {% endfor %}
@@ -47,43 +59,89 @@
             </table>
         </div>
     </div>
+
     {% for cita in citas %}
         <!-- Modal para editar cita -->
-        <div class="modal" id="modalEditarCita{{ cita.pk }}"
-             aria-labelledby="modalEditarCitaLabel{{ cita.pk }}" aria-hidden="true">
+        <div class="modal" id="modalEditarCita{{ cita.pk }}">
+            <div class="modal-background"></div>
             <div class="modal-card">
                 <header class="modal-card-head">
-                    <h5 class="modal-card-title" id="modalEditarCitaLabel{{ cita.pk }}">Editar Cita</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <h5 class="modal-card-title">Editar Cita</h5>
+                    <button class="delete" aria-label="Close"
+                            onclick="closeModal('modalEditarCita{{ cita.pk }}')"></button>
+
                 </header>
-                <div class="modal-card-body">
-                    <form method="post" action="{% url 'editar_cita' cita.pk %}">
+                <form method="POST" action="{% url 'editar_cita' cita.pk %}">
+
+                    <div class="modal-card-body">
 
                         {% csrf_token %}
                         <div class="field">
                             <label for="fecha">Fecha:</label>
-                            <input type="date" class="form-control" id="fecha" name="fecha" required
-                                   value="{{ cita.fecha }}">
+                            <input type="date" class="input is-link" id="fecha" name="fecha"
+                                   value="{{ cita.fecha|date:'Y-m-d' }}">
+
                         </div>
                         <div class="field">
                             <label for="hora">Hora:</label>
-                            <input type="time" class="form-control" id="hora" name="hora" required
-                                   value="{{ cita.hora }}">
+                            <input type="time" class="input is-link" id="hora" name="hora" required
+                                   value="{{ cita.hora|date:'H:i' }}">
+
                         </div>
                         <div class="field">
                             <label for="detalle">Detalle:</label>
-                            <input type="text" class="form-control" id="detalle" name="detalle" required
+                            <input type="text" class="input is-link" id="detalle" name="detalle" required
                                    value="{{ cita.detalle }}">
+
                         </div>
-                        <button type="submit" class="button is-primary">Guardar Cambios</button>
-                        <button type="button" class="button is-primary" data-dismiss="modal">Cancelar</button>
+                        <footer class="modal-card-foot">
+                            <button type="submit" class="button is-success">Guardar</button>
+                            <button type="button" class="button" onclick="closeModal('modalEditarCita{{ cita.pk }}')">
+                                Cancelar
+                            </button>
+                        </footer>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="modal" id="modalEliminarCita{{ cita.pk }}">
+            <div class="modal-background"></div>
+            <div class="modal-card">
+                <header class="modal-card-head">
+                    <p class="modal-card-title">Confirmar Eliminación</p>
+                    <button class="delete" aria-label="Close"
+                            onclick="closeModal('modalEliminarCita{{ cita.pk }}')"></button>
+                </header>
+                <section class="modal-card-body">
+                    <p>¿Estás seguro de que deseas eliminar esta cita?</p>
+                </section>
+                <footer class="modal-card-foot">
+                    <form method="post" action="{% url 'eliminar_cita' cita.pk %}">
+                        {% csrf_token %}
+                        <button type="submit" class="button is-danger">Eliminar</button>
+                        <button type="button" class="button is-link" onclick="closeModal('modalEliminarCita{{ cita.pk }}')">
+                                Cancelar
+                            </button>
+
                     </form>
-                </div>
+                </footer>
             </div>
         </div>
     {% endfor %}
 
+    <!-- Modal para confirmar eliminación de cita -->
+
+
+    <script>
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.classList.add('is-active');
+        }
+
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.classList.remove('is-active');
+        }
+    </script>
 
 {% endblock %}

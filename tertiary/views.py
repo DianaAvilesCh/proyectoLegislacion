@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from primary.models import doctor, persona
 from secondary.models import doctor_paciente, paciente
 from tertiary.models import cita
-
+from django.contrib import messages
 from .forms import DoctorForm, CitaForm, PersonaForm
 from django.contrib.auth.decorators import login_required
 
@@ -40,46 +40,49 @@ def perfil_doctor(request):
     }
     return render(request, 'template/profile.html', context)
 
+
 @login_required
 def lista_citas(request):
     doctor_instance = doctor.objects.get(id_usuario=request.user)
 
     doctor_paciente_list = doctor_paciente.objects.filter(id_doctor=doctor_instance)
+    citas_paciente = []
 
-    citas = cita.objects.filter(id_doctor_paciente__in=doctor_paciente_list).order_by('fecha', 'hora','detalle')
+    for relacion in doctor_paciente_list:
+        citas_paciente.extend(cita.objects.filter(id_doctor_paciente=relacion))
 
-    context = {
-        'citas': citas
-    }
-
-    return render(request, 'template/quotes.html', context)
+    return render(request, 'template/quotes.html', {'citas': citas_paciente})
 
 
 @login_required
-def editar_cita(request, cita_id):
-    cita_instancia = get_object_or_404(cita, id=cita_id)
+def editar_cita(request, pk):
+    cita_instancia = get_object_or_404(cita, pk=pk)
 
     if request.method == 'POST':
-       form = CitaForm(request.POST, instance=cita_instancia)
-       if form.is_valid():
+        form = CitaForm(request.POST, instance=cita_instancia)
+        if form.is_valid():
             form.save()
-            return redirect('editar_cita', cita_id=cita_id)
-
+            messages.success(request, 'Cita actualizada con éxito.')
+            return redirect('lista_citas')
+        else:
+            messages.error(request, 'Por favor corrija los errores abajo.')
+            # Aquí podrías optar por devolver el usuario a una vista detallada de la cita con el formulario abierto
+            # Pero necesitarías cambiar la lógica para mantener la página y abrir el modal.
     else:
         form = CitaForm(instance=cita_instancia)
-    return render(request, 'template/quotes.html',  {'form': form})
-
+    # Si no es POST o si el formulario no es válido, simplemente redirige para mantener la simplicidad.
+    return redirect('lista_citas', {'form': form})
 
 @login_required
-def eliminar_cita(request, cita_id):
-    cita_instancia = get_object_or_404(cita, id=cita_id)
+def eliminar_cita(request, pk):
+    cita_instancia = get_object_or_404(cita, pk=pk)
 
     if request.method == 'POST':
-        # Elimina la cita
         cita_instancia.delete()
+        messages.success(request, 'Cita eliminada con éxito.')
         return redirect('lista_citas')
 
-    context = {
-        'cita': cita_instancia
-    }
-    return render(request, 'template/quotes.html', context)
+    return render(request, 'template/quotes.html', {'cita': cita_instancia})
+
+def quotes(request):
+    return render(request, 'template/quotes.html')
