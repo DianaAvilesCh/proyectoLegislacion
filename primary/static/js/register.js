@@ -1,9 +1,11 @@
 $(document).ready(function () {
   $('#registerForm').submit(function (event) {
     event.preventDefault();
+    const csrftoken = getCookie('csrftoken');
     showLoader();
     $.ajax({
       type: 'POST',
+      headers: {'X-CSRFToken': csrftoken},
       url: '/register/',
       data: $('#registerForm').serialize(),
       success: function (data) {
