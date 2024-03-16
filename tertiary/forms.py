@@ -15,4 +15,4 @@ class DoctorForm(forms.ModelForm):
 class CitaForm(forms.ModelForm):
     class Meta:
         model = cita
-        fields = ['id_doctor_paciente','fecha', 'hora', 'detalle']
+        fields = ['fecha', 'hora', 'detalle']
