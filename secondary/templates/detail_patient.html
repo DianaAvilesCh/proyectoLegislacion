@@ -1,0 +1,310 @@
+{% extends "base.html" %} {% block title %}Detalle Paciente{% endblock %}
+{%block body_attributes %}class="area"{% endblock %} {%block content %}
+<div>
+    <div class="messages">
+        {% if messages %}
+          {% for message in messages %}
+            <div class="{{ message.extra_tags }}"><b>{{ message }}</b></div>
+          {% endfor %}
+        {% endif %}
+      </div>
+  <br />
+    <div class="container">
+        <nav class="level">
+        <div class="level-left">
+                <p class="level-item">
+                    <h3 class="title is-3">Ficha:</h3> 
+                </p>
+                <p class="level-item"><h3 class="centered title is-3">{{ datos.numero_ficha}}</h3></p>
+        </div>
+        <div class="level-right">
+            <p class="level-item"><button class="button is-warning modal-button" data-target="modal-edit-patient">Editar</button></p>
+            <p class="level-item">
+                <a class="button is-danger" href="{% url 'delete' datos.id %}">Eliminar</a>
+            </p>
+        </div>
+    </nav>
+    </div>
+  <br />
+  
+  <div class="columns until-fullhd">
+    <div class="column">
+      <div class="container is-fluid">
+        <div class="box">
+          <section>
+            <h3 class="centered title is-3">Datos personales</h3>
+            <div class="centered table-wrapper has-mobile-cards">
+              <table class="table">
+                <tr>
+                  <th>Nombres</th>
+                  <td>{{ datos.id_persona.nombres }}</td>
+                </tr>
+                <tr>
+                  <th>Apellidos</th>
+                  <td>{{ datos.id_persona.apellidos }}</td>
+                </tr>
+                <tr>
+                  <th>Cédula</th>
+                  <td>{{ datos.id_persona.dni }}</td>
+                </tr>
+                <tr>
+                  <th>Correo</th>
+                  <td>{{ datos.id_persona.correo }}</td>
+                </tr>
+                <tr>
+                  <th>Telefono</th>
+                  <td>{{ datos.id_persona.telefono }}</td>
+                </tr>
+                <tr>
+                  <th>Sexo</th>
+                  <td>{{ datos.id_persona.sexo }}</td>
+                </tr>
+                <tr>
+                  <th>Dirección</th>
+                  <td>{{ datos.domicilio}}</td>
+                </tr>
+                <tr>
+                  <th>Fecha de nacimiento</th>
+                  <td>{{ datos.fecha_nacimiento}}</td>
+                </tr>
+                <tr>
+                  <th>Tipo de Sangre</th>
+                  <td>{{ datos.tipo_sangre }}</td>
+                </tr>
+              </table>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+
+    <div class="column">
+      <div class="container is-fluid">
+        <div class="box">
+          <h3 class="centered title is-3">Antecedentes</h3>
+          <article class="message is-info">
+            <div class="message-header">
+              <p>Antecedentes Personales</p>
+            </div>
+            <div class="message-body">{{ datos.ant_personal }}</div>
+          </article>
+          <article class="message is-link">
+            <div class="message-header">
+              <p>Antecedentes Familiares</p>
+            </div>
+            <div class="message-body">{{ datos.ant_familiar }}</div>
+          </article>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="columns until-fullhd is-centered">
+      <div class="column">
+        <div class="box">
+          <h3 class="centered title is-3">Constantes Vitales</h3>
+          <div class="table-wrapper has-mobile-cards">
+            <table class="table is-striped is-narrow is-hoverable is-fullwidth">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Fecha</th>
+                  <th>Hora</th>
+                  <th>Temperatura</th>
+                  <th>Pre. Arterial</th>
+                  <th>Pulso</th>
+                  <th>Frec. Cardiaca</th>
+                  <th>Peso</th>
+                  <th>Talla</th>
+                  <th>Glucosa</th>
+                  <th>Acción</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for constante in constantes %}
+                <tr>
+                  <td>{{ forloop.counter }}</td>
+                  <td>{{ constante.fecha }}</td>
+                  <td>{{ constante.hora }}</td>
+                  <td>{{ constante.temperatura }}</td>
+                  <td>{{ constante.presion_art }}</td>
+                  <td>{{ constante.pulse }}</td>
+                  <td>{{ constante.frec_respiratoria }}</td>
+                  <td>{{ constante.peso }}</td>
+                  <td>{{ constante.talla }}</td>
+                  <td>{{ constante.glucosa }}</td>
+                  <td><a class="button is-danger" href="#"><i class="fa-solid fa-trash"></i></a></td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br />
+  <div class="modal" id="modal-edit-patient">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+      <header class="modal-card-head">
+        <p class="modal-card-title">Nuevo Paciente</p>
+        <button class="delete close-modal-button" aria-label="close"></button>
+      </header>
+      <form id="modal-editar" action="/update_patient/" method="POST">
+        {% csrf_token %}
+        <section class="modal-card-body">
+            <input name="did" id="did"
+                  value="{{ datos.id }}" hidden/>
+          <div class="field">
+            <div class="columns is-mobile">
+              <div class="column">
+                <label class="label">Nombre</label>
+                <div class="control">
+                  <input
+                    class="input is-link"
+                    type="text"
+                    name="name"
+                    id="name"
+                    value="{{ datos.id_persona.nombres }}"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="column">
+                <label class="label">Apellido</label>
+                <div class="control">
+                  <input
+                    class="input is-link"
+                    type="text"
+                    name="lastname"
+                    id="lastname"
+                    value="{{ datos.id_persona.apellidos }}"
+                    required
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="columns is-mobile">
+              <div class="column">
+                <label class="label">Cédula</label>
+                <div class="control">
+                  <input
+                    class="input is-link"
+                    type="text"
+                    name="dni"
+                    id="dni"
+                    value="{{ datos.id_persona.dni }}"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div class="column">
+                <label class="label">Teléfono</label>
+                <div class="control">
+                  <input
+                    class="input is-link"
+                    type="text"
+                    name="phone"
+                    id="phone"
+                    value="{{ datos.id_persona.telefono }}"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="column">
+                <label class="label">Sexo</label>
+                <div class="control">
+                  <div class="select is-link">
+                    <select name="sex" id="sex" required>
+                        <option>---- Seleccione ----</option>
+                        <option value="Femenino" {% if datos.id_persona.sexo == "Femenino" %}selected{% endif %}>Femenino</option>
+                        <option value="Masculino" {% if datos.id_persona.sexo == "Masculino" %}selected{% endif %}>Masculino</option>
+                      </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="field">
+            <div class="columns is-mobile">
+              <div class="column is-two-thirds">
+                <label class="label">Correo</label>
+                <div class="control">
+                  <input class="input is-link" type="email" name="email" id="email"
+                  value="{{ datos.id_persona.correo }}"
+                  required />
+                </div>
+              </div>
+              <div class="column">
+                <label class="label">Fecha de nacimiento</label>
+                <div class="control">
+                  <input class="input is-link" type="date" name="birthdate" id="birthdate"
+                  value="{{ datos.fecha_nacimiento|date:'Y-m-d' }}"
+                  required />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="field">
+            <div class="columns is-mobile">
+              <div class="column">
+                <label class="label">Dirección</label>
+                <div class="control">
+                  <input
+                    class="input is-link"
+                    type="text"
+                    name="address"
+                    id="address"
+                    value="{{ datos.domicilio}}"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="column">
+                <label class="label">Tipo de Sangre</label>
+                <div class="control">
+                  <input
+                    class="input is-link"
+                    type="text"
+                    name="blood"
+                    id="blood"
+                    value="{{ datos.tipo_sangre}}"
+                    required
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Antecedentes Personal</label>
+            <div class="control">
+              <textarea
+                class="textarea is-primary"
+                name="antPerson"
+                id="antPerson"
+              >{{ datos.ant_personal}}</textarea>
+            </div>
+            <label class="label">Antecedentes Familiar</label>
+            <div class="control">
+              <textarea
+                class="textarea is-primary"
+                name="antFam"
+                id="antFam"
+              >{{ datos.ant_familiar}}</textarea>
+            </div>
+          </div>
+        </section>
+        <footer class="modal-card-foot">
+          <button class="button is-success" type="submit">Guardar</button>
+          <button class="button close-modal-button">Cancelar</button>
+        </footer>
+      </form>
+    </div>
+  </div>
+  {% comment %} has-text-centered {% endcomment %}
+</div>
+{% endblock %}

@@ -7,6 +7,8 @@ class paciente(models.Model):
     fecha_nacimiento = models.DateField(auto_now_add=False)
     numero_ficha = models.CharField(max_length=10)
     tipo_sangre = models.CharField(max_length=10)
+    ant_personal = models.CharField(max_length=100, default='Ninguno')
+    ant_familiar = models.CharField(max_length=100, default='Ninguno')
 
     def __str__(self):
             return f"{self.id_persona}"
@@ -25,8 +27,9 @@ class const_vitales(models.Model):
     temperatura = models.FloatField(null=True)
     presion_art = models.FloatField(null=True)
     pulse = models.FloatField(null=True)
-    frec_cardiaca = models.FloatField(null=True)
+    frec_respiratoria = models.FloatField(null=True)
     peso = models.FloatField(null=True)
+    talla = models.FloatField(null=True)
     glucosa = models.FloatField(null=True)
 
     def __str__(self):

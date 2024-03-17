@@ -15,7 +15,7 @@
     />
     <link rel="stylesheet" href="{% static 'css/header.css' %}" />
   </head>
-  <body>
+  <body {% block body_attributes %}{% endblock %}>
     <header class="header">
       <nav
         class="navbar is-transparent"
@@ -53,7 +53,7 @@
               <div class="navbar-dropdown is-boxed">
                 <a class="navbar-item" href="/profile"> Perfil </a>
                 <hr class="navbar-divider" />
-                <a class="navbar-item" href="#"> Cerrar Sesión </a>
+                <a class="navbar-item" href="{% url 'signout' %}"> Cerrar Sesión </a>
               </div>
             </div>
           </div>
