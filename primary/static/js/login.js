@@ -1,12 +1,11 @@
 $(document).ready(function () {
-    // Agrega un controlador de eventos al formulario
     $('#loginForm').submit(function (event) {
         event.preventDefault();
-        // Muestra el indicador de carga antes de realizar la solicitud Ajax
+        const csrftoken = getCookie('csrftoken');
         showLoader();
-        // Realiza la solicitud Ajax
         $.ajax({
         type: 'POST',
+        headers: {'X-CSRFToken': csrftoken},
         url: '/login_custom/',
         data: $('#loginForm').serialize(),
         success: function (data) {

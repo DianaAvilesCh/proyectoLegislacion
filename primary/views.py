@@ -42,17 +42,20 @@ def register(request):
                 contexto['doctor_form'] = doctor_form
                 
 
-                return JsonResponse({'redirect_url': 'login_custom'})
+                return JsonResponse({'result': 'success','redirect_url': 'login_custom'})
             except ValidationError as e:
+                errors = {}
                 for field, messages in e.error_dict.items():
                     for message in messages:
-                        form.add_error(field, message)
-                        print(f"Error en el campo '{field}': {message}")
-                        return JsonResponse({'error': True, 'formData': request.POST})
+                        errors[field] = errors.get(field, []) + [message]
+                return JsonResponse({'result': 'error', 'errors': errors})
         else:
-            response = render(request, 'register.html', {'form': form, 'persona_form': persona_form, 'doctor_form': doctor_form})
-            form_html = response.content.decode('utf-8')
-            return JsonResponse({'error': True, 'formHTML': form_html})
+            errors = {}
+            errors.update(persona_form.errors)
+            errors.update(form.errors)
+            errors.update(doctor_form.errors) 
+            print(errors)
+            return JsonResponse({'result': 'error', 'errors': errors})
 
     contexto = {'form': form, 'persona_form': persona_form, 'doctor_form': doctor_form}
     return render(request, 'register.html', contexto)
