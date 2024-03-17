@@ -1,32 +1,36 @@
-{% extends "base.html" %} {% block title %}Detalle Paciente{% endblock %}
+{% extends "base.html" %} {% load static %}
+{% block title %}Detalle Paciente{% endblock %}
 {%block body_attributes %}class="area"{% endblock %} {%block content %}
 <div>
-    <div class="messages">
-        {% if messages %}
-          {% for message in messages %}
-            <div class="{{ message.extra_tags }}"><b>{{ message }}</b></div>
-          {% endfor %}
-        {% endif %}
+  <div class="messages">
+    {% if messages %}
+    {% for message in messages %}
+    <div class="{{ message.extra_tags }}"><b>{{ message }}</b></div>
+    {% endfor %}
+    {% endif %}
+  </div>
+  <br />
+  <div class="container">
+    <nav class="level">
+      <div class="level-left">
+        <p class="level-item">
+        <h3 class="title is-3">Ficha:</h3>
+        </p>
+        <p class="level-item">
+        <h3 class="centered title is-3">{{ datos.numero_ficha}}</h3>
+        </p>
       </div>
-  <br />
-    <div class="container">
-        <nav class="level">
-        <div class="level-left">
-                <p class="level-item">
-                    <h3 class="title is-3">Ficha:</h3> 
-                </p>
-                <p class="level-item"><h3 class="centered title is-3">{{ datos.numero_ficha}}</h3></p>
-        </div>
-        <div class="level-right">
-            <p class="level-item"><button class="button is-warning modal-button" data-target="modal-edit-patient">Editar</button></p>
-            <p class="level-item">
-                <a class="button is-danger" href="{% url 'delete' datos.id %}">Eliminar</a>
-            </p>
-        </div>
+      <div class="level-right">
+        <p class="level-item"><button class="button is-warning modal-button"
+            data-target="modal-edit-patient">Editar</button></p>
+        <p class="level-item">
+          <a class="button is-danger" href="{% url 'delete' datos.id %}">Eliminar</a>
+        </p>
+      </div>
     </nav>
-    </div>
+  </div>
   <br />
-  
+
   <div class="columns until-fullhd">
     <div class="column">
       <div class="container is-fluid">
@@ -134,7 +138,23 @@
                   <td>{{ constante.peso }}</td>
                   <td>{{ constante.talla }}</td>
                   <td>{{ constante.glucosa }}</td>
-                  <td><a class="button is-danger" href="#"><i class="fa-solid fa-trash"></i></a></td>
+                  <td>
+                    <button class="button is-warning modal-button btn-edit-vital" 
+                      data-id="{{ constante.id }}"
+                      data-idpac="{{ constante.id_paciente_id }}"
+                      data-fecha="{{ constante.fecha|date:'Y-m-d' }}"
+                      data-hora="{{ constante.hora|time:'H:i' }}"
+                      data-temperatura="{{ constante.temperatura }}"
+                      data-presion_art="{{ constante.presion_art }}"
+                      data-pulse="{{ constante.pulse }}"
+                      data-frec_respiratoria="{{ constante.frec_respiratoria }}"
+                      data-peso="{{ constante.peso }}"
+                      data-talla="{{ constante.talla }}"
+                      data-glucosa="{{ constante.glucosa }}"
+                      data-target="modal-const-vital">
+                      <i class="fa-solid fa-pencil"></i>
+                    </button>
+                  </td>
                 </tr>
                 {% endfor %}
               </tbody>
@@ -155,34 +175,21 @@
       <form id="modal-editar" action="/update_patient/" method="POST">
         {% csrf_token %}
         <section class="modal-card-body">
-            <input name="did" id="did"
-                  value="{{ datos.id }}" hidden/>
+          <input name="did" id="did" value="{{ datos.id }}" hidden />
           <div class="field">
             <div class="columns is-mobile">
               <div class="column">
                 <label class="label">Nombre</label>
                 <div class="control">
-                  <input
-                    class="input is-link"
-                    type="text"
-                    name="name"
-                    id="name"
-                    value="{{ datos.id_persona.nombres }}"
-                    required
-                  />
+                  <input class="input is-link" type="text" name="name" id="name" value="{{ datos.id_persona.nombres }}"
+                    required />
                 </div>
               </div>
               <div class="column">
                 <label class="label">Apellido</label>
                 <div class="control">
-                  <input
-                    class="input is-link"
-                    type="text"
-                    name="lastname"
-                    id="lastname"
-                    value="{{ datos.id_persona.apellidos }}"
-                    required
-                  />
+                  <input class="input is-link" type="text" name="lastname" id="lastname"
+                    value="{{ datos.id_persona.apellidos }}" required />
                 </div>
               </div>
             </div>
@@ -191,28 +198,16 @@
               <div class="column">
                 <label class="label">Cédula</label>
                 <div class="control">
-                  <input
-                    class="input is-link"
-                    type="text"
-                    name="dni"
-                    id="dni"
-                    value="{{ datos.id_persona.dni }}"
-                    required
-                  />
+                  <input class="input is-link" type="text" name="dni" id="dni" value="{{ datos.id_persona.dni }}"
+                    required />
                 </div>
               </div>
 
               <div class="column">
                 <label class="label">Teléfono</label>
                 <div class="control">
-                  <input
-                    class="input is-link"
-                    type="text"
-                    name="phone"
-                    id="phone"
-                    value="{{ datos.id_persona.telefono }}"
-                    required
-                  />
+                  <input class="input is-link" type="text" name="phone" id="phone"
+                    value="{{ datos.id_persona.telefono }}" required />
                 </div>
               </div>
               <div class="column">
@@ -220,10 +215,10 @@
                 <div class="control">
                   <div class="select is-link">
                     <select name="sex" id="sex" required>
-                        <option>---- Seleccione ----</option>
-                        <option value="Femenino" {% if datos.id_persona.sexo == "Femenino" %}selected{% endif %}>Femenino</option>
-                        <option value="Masculino" {% if datos.id_persona.sexo == "Masculino" %}selected{% endif %}>Masculino</option>
-                      </select>
+                      <option>---- Seleccione ----</option>
+                      <option value="Femenino" {% if datos.id_persona.sexo == "Femenino" %} selected {% endif %}>Femenino</option>
+                      <option value="Masculino" {% if datos.id_persona.sexo == "Masculino" %} selected {% endif %}>Masculino</option>
+                    </select>
                   </div>
                 </div>
               </div>
@@ -235,16 +230,14 @@
                 <label class="label">Correo</label>
                 <div class="control">
                   <input class="input is-link" type="email" name="email" id="email"
-                  value="{{ datos.id_persona.correo }}"
-                  required />
+                    value="{{ datos.id_persona.correo }}" required />
                 </div>
               </div>
               <div class="column">
                 <label class="label">Fecha de nacimiento</label>
                 <div class="control">
                   <input class="input is-link" type="date" name="birthdate" id="birthdate"
-                  value="{{ datos.fecha_nacimiento|date:'Y-m-d' }}"
-                  required />
+                    value="{{ datos.fecha_nacimiento|date:'Y-m-d' }}" required />
                 </div>
               </div>
             </div>
@@ -254,27 +247,15 @@
               <div class="column">
                 <label class="label">Dirección</label>
                 <div class="control">
-                  <input
-                    class="input is-link"
-                    type="text"
-                    name="address"
-                    id="address"
-                    value="{{ datos.domicilio}}"
-                    required
-                  />
+                  <input class="input is-link" type="text" name="address" id="address" value="{{ datos.domicilio}}"
+                    required />
                 </div>
               </div>
               <div class="column">
                 <label class="label">Tipo de Sangre</label>
                 <div class="control">
-                  <input
-                    class="input is-link"
-                    type="text"
-                    name="blood"
-                    id="blood"
-                    value="{{ datos.tipo_sangre}}"
-                    required
-                  />
+                  <input class="input is-link" type="text" name="blood" id="blood" value="{{ datos.tipo_sangre}}"
+                    required />
                 </div>
               </div>
             </div>
@@ -282,19 +263,11 @@
           <div class="field">
             <label class="label">Antecedentes Personal</label>
             <div class="control">
-              <textarea
-                class="textarea is-primary"
-                name="antPerson"
-                id="antPerson"
-              >{{ datos.ant_personal}}</textarea>
+              <textarea class="textarea is-primary" name="antPerson" id="antPerson">{{ datos.ant_personal}}</textarea>
             </div>
             <label class="label">Antecedentes Familiar</label>
             <div class="control">
-              <textarea
-                class="textarea is-primary"
-                name="antFam"
-                id="antFam"
-              >{{ datos.ant_familiar}}</textarea>
+              <textarea class="textarea is-primary" name="antFam" id="antFam">{{ datos.ant_familiar}}</textarea>
             </div>
           </div>
         </section>
@@ -305,6 +278,97 @@
       </form>
     </div>
   </div>
+  <section>
+    <div class="modal" id="modal-const-vital">
+      <div class="modal-background"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title">Constantes Vitales</p>
+          <button class="delete close-modal-button" aria-label="close"></button>
+        </header>
+        <form id="modal-registro" action="/update_vitales/" method="POST">
+          {% csrf_token %}
+          <section class="modal-card-body">
+            <input type="text" id="idSeleccionado" name="idSeleccionado" >
+            <input type="text" id="idpac" name="idpac" >
+            <div class="field">
+              <div class="columns">
+                <div class="column">
+                  <label class="label">Fecha</label>
+                  <div class="control">
+                    <input class="input is-link" type="date" name="date" id="date" required />
+                  </div>
+                </div>
+                <div class="column">
+                  <label class="label">Hora</label>
+                  <div class="control">
+                    <input class="input is-link" type="time" name="time" id="time" required />
+                  </div>
+                </div>
+                <div class="column">
+                  <label class="label">Temperatura</label>
+                  <div class="control">
+                    <input class="input is-link" type="text" name="temp" id="temp" required />
+                  </div>
+                </div>
+              </div>
+
+              <div class="columns">
+                <div class="column">
+                  <label class="label">Presión Arterial</label>
+                  <div class="control">
+                    <input class="input is-link" type="text" name="arterial" id="arterial" required />
+                  </div>
+                </div>
+                <div class="column">
+                  <label class="label">Pulso</label>
+                  <div class="control">
+                    <input class="input is-link" type="text" name="pulso" id="pulso" required />
+                  </div>
+                </div>
+
+                <div class="column">
+                  <label class="label">Frecuencia Respiratoria</label>
+                  <div class="control">
+                    <input class="input is-link" type="text" name="respiratoria" id="respiratoria"  required />
+                  </div>
+                </div>
+              </div>
+              <div class="columns">
+
+                <div class="column">
+                  <label class="label">Peso</label>
+                  <div class="control">
+                    <input class="input is-link" type="text" name="peso" id="peso" required />
+                  </div>
+                </div>
+                <div class="column">
+                  <label class="label">Talla (Altura)</label>
+                  <div class="control">
+                    <input class="input is-link" type="text" name="talla" id="talla" required />
+                  </div>
+                </div>
+                <div class="column">
+                  <label class="label">Glucosa</label>
+                  <div class="control">
+                    <input class="input is-link" type="text" name="glucosa" id="glucosa" required />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+          <footer class="modal-card-foot">
+            <button class="button is-success" type="submit">Guardar</button>
+            <button class="button close-modal-button">Cancelar</button>
+          </footer>
+        </form>
+      </div>
+    </div>
+
+  </section>
   {% comment %} has-text-centered {% endcomment %}
 </div>
+{% endblock %}
+{% block js %}
+<script src="{% static 'js/edit.js' %}"></script>
 {% endblock %}

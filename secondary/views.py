@@ -167,13 +167,13 @@ def update_patient(request):
         # Actualizar datos de Persona
         persona_instancia = persona.objects.get(id=paciente_instancia.id_persona_id)
         
-        if persona_instancia.correo == correo:
-            messages.error(request, 'El correo electrónico ingresado ya existe.', extra_tags='ojo')
-            return redirect(detail, id=paciente_instancia.id) 
+        # if persona_instancia.correo == correo:
+        #     messages.error(request, 'El correo electrónico ingresado ya existe.', extra_tags='ojo')
+        #     return redirect(detail, id=paciente_instancia.id) 
         
-        if persona_instancia.dni == dni:
-            messages.error(request, 'El DNI ingresado ya está registrado.', extra_tags='ojo')
-            return redirect(detail, id=paciente_instancia.id) 
+        # if persona_instancia.dni == dni:
+        #     messages.error(request, 'El DNI ingresado ya está registrado.', extra_tags='ojo')
+        #     return redirect(detail, id=paciente_instancia.id) 
         
         persona_instancia.nombres = nombres
         persona_instancia.apellidos = apellidos
@@ -187,6 +187,47 @@ def update_patient(request):
 
         messages.success(request, 'Paciente actualizado correctamente.', extra_tags='correcto')
         return redirect(detail, id=paciente_instancia.id)  
+    else:
+        messages.error(request, 'Ha ocurrido un error.', extra_tags='error')
+        return redirect(patient) 
+    
+@login_required
+def update_vitales(request):
+    if request.method == 'POST':
+
+        id_const = request.POST.get('idSeleccionado')
+        id_pac = request.POST.get('idpac')
+        fecha = request.POST.get('date')
+        hora = request.POST.get('time')
+        temperatura = request.POST.get('temp')
+        presion_art = request.POST.get('arterial')
+        pulse = request.POST.get('pulso')
+        frec_respiratoria = request.POST.get('respiratoria')
+        peso = request.POST.get('peso')
+        talla = request.POST.get('talla')
+        glucosa = request.POST.get('glucosa')
+
+        try:
+            conts_instancia = const_vitales.objects.get(id=id_const)
+        except persona.DoesNotExist:
+            messages.error(request, 'Constante Vital no encontrado.', extra_tags='error')
+            return redirect(patient)
+        
+        # Obtener y actualizar datos de Paciente, asumiendo relación uno a uno
+        conts_instancia.fecha = fecha
+        conts_instancia.hora = hora
+        conts_instancia.temperatura = temperatura
+        conts_instancia.presion_art = presion_art
+        conts_instancia.pulse = pulse
+        conts_instancia.frec_respiratoria = frec_respiratoria
+        conts_instancia.peso = peso
+        conts_instancia.talla = talla
+        conts_instancia.glucosa = glucosa
+        conts_instancia.save()
+        
+
+        messages.success(request, 'Constante Vital actualizada correctamente.', extra_tags='correcto')
+        return redirect(detail, id=id_pac)  
     else:
         messages.error(request, 'Ha ocurrido un error.', extra_tags='error')
         return redirect(patient) 
