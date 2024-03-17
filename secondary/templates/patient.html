@@ -1,6 +1,6 @@
 {% extends "base.html" %} {% block title %}Pacientes{% endblock %} 
 {%block content %}
-<section>
+<section class="is-mobile">
   <div class="messages">
       {% if messages %}
         {% for message in messages %}
@@ -30,7 +30,7 @@
         {% csrf_token %}
         <section class="modal-card-body">
           <div class="field">
-            <div class="columns">
+            <div class="columns is-mobile">
               <div class="column">
                 <label class="label">Nombre</label>
                 <div class="control">
@@ -57,7 +57,7 @@
               </div>
             </div>
 
-            <div class="columns">
+            <div class="columns is-mobile">
               <div class="column">
                 <label class="label">Cédula</label>
                 <div class="control">
@@ -98,7 +98,7 @@
             </div>
           </div>
           <div class="field">
-            <div class="columns">
+            <div class="columns is-mobile">
               <div class="column is-two-thirds">
                 <label class="label">Correo</label>
                 <div class="control">
@@ -116,7 +116,7 @@
             </div>
           </div>
           <div class="field">
-            <div class="columns">
+            <div class="columns is-mobile">
               <div class="column">
                 <label class="label">Dirección</label>
                 <div class="control">
@@ -150,7 +150,6 @@
                 class="textarea is-primary"
                 name="antPerson"
                 id="antPerson"
-                required
               ></textarea>
             </div>
             <label class="label">Antecedentes Familiar</label>
@@ -159,7 +158,6 @@
                 class="textarea is-primary"
                 name="antFam"
                 id="antFam"
-                required
               ></textarea>
             </div>
           </div>
@@ -174,7 +172,7 @@
 
   <section>
     <br />
-    <div class="container is-max-widescreen">
+    <div class="container table-wrapper has-mobile-cards centered">
       <table class="table">
         <thead>
           <tr>
@@ -199,12 +197,9 @@
             <td>{{ paciente.domicilio }}</td>
             <td>{{ paciente.fecha_nacimiento }}</td>
             <td>
-              <button class="button is-warning">
+              <a class="button is-warning" href="{% url 'detail' paciente.id %}">
                 <i class="fa-solid fa-eye"></i>
-              </button>
-              <button class="button is-info">
-                <i class="fa-solid fa-pencil"></i>
-              </button>
+              </a>
               <button class="button is-primary modal-button btn-vital" 
               data-id="{{ paciente.id }}" 
               data-cedula="{{ paciente.id_persona.dni }}" 
@@ -253,13 +248,13 @@
                   </div>
                 </div>
                 <div class="column">
-                  <label class="label">Peso</label>
+                  <label class="label">Temperatura</label>
                   <div class="control">
                     <input
                       class="input is-link"
                       type="text"
-                      name="peso"
-                      id="peso"
+                      name="temp"
+                      id="temp"
                       required
                     />
                   </div>
@@ -267,18 +262,6 @@
               </div>
   
               <div class="columns">
-                <div class="column">
-                  <label class="label">Pulso</label>
-                  <div class="control">
-                    <input
-                      class="input is-link"
-                      type="text"
-                      name="pulso"
-                      id="pulso"
-                      required
-                    />
-                  </div>
-                </div>
                 <div class="column">
                   <label class="label">Presión Arterial</label>
                   <div class="control">
@@ -291,32 +274,58 @@
                     />
                   </div>
                 </div>
-              </div>
-              <div class="columns">
                 <div class="column">
-                  <label class="label">Frecuencia Cardiaca</label>
+                  <label class="label">Pulso</label>
                   <div class="control">
                     <input
                       class="input is-link"
                       type="text"
-                      name="cardiaca"
-                      id="cardiaca"
-                      required
-                    />
-                  </div>
-                </div> 
-                <div class="column">
-                  <label class="label">Temperatura</label>
-                  <div class="control">
-                    <input
-                      class="input is-link"
-                      type="text"
-                      name="temp"
-                      id="temp"
+                      name="pulso"
+                      id="pulso"
                       required
                     />
                   </div>
                 </div>
+                
+                <div class="column">
+                  <label class="label">Frecuencia Respiratoria</label>
+                  <div class="control">
+                    <input
+                      class="input is-link"
+                      type="text"
+                      name="respiratoria"
+                      id="respiratoria"
+                      required
+                    />
+                  </div>
+                </div> 
+              </div>
+              <div class="columns">
+                
+                <div class="column">
+                  <label class="label">Peso</label>
+                  <div class="control">
+                    <input
+                      class="input is-link"
+                      type="text"
+                      name="peso"
+                      id="peso"
+                      required
+                    />
+                  </div>
+                </div>
+                <div class="column">
+                  <label class="label">Talla (Altura)</label>
+                  <div class="control">
+                    <input
+                      class="input is-link"
+                      type="text"
+                      name="talla"
+                      id="talla"
+                      required
+                    />
+                  </div>
+                </div> 
                 <div class="column">
                   <label class="label">Glucosa</label>
                   <div class="control">
