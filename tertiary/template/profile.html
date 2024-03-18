@@ -1,40 +1,96 @@
 {% extends "base.html" %} {% block title %}Perfil de usuario{% endblock %}
 {% block content %}
-    <div class="container is-fluid">
+    <div class="messages">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="{{ message.extra_tags }}"><b>{{ message }}</b></div>
+            {% endfor %}
+        {% endif %}
+    </div>
+    <div class="container">
         <h1 class="title is-2 is-spaced">Perfil del Doctor</h1>
-        <form   method="post">
+        <form method="post">
             {% csrf_token %}
-            {% for field in persona_form %}
-                <div class="columns is-mobile">
-                    <div class="column">
-                        <label class="form-label">{{ field.label }}</label>
-                        <!-- Chequea si estamos en modo de edición para establecer el campo como solo lectura o no -->
-                        <input class="input is-link" type="{{ field.field.widget.input_type }}" class="form-control"
-                               id="{{ field.id_for_label }}"
-                               name="{{ field.html_name }}" value="{{ field.value }}"
-                               {% if not editing %}readonly{% endif %}>
-                    </div>
+            <div class="columns">
+                <div class="column">
+                    {% for field in persona_form %}
+                        <div class="field">
+                            <label class="label">{{ field.label }}</label>
+                            <div class="control">
+                                {% if field.name == 'sexo' %}  <!-- Verifica si el campo es 'sexo' -->
+                                    <div class="select is-fullwidth">
+                                        <select name="{{ field.html_name }}" id="{{ field.id_for_label }}"
+                                                {% if not editing %}disabled{% endif %}>
+                                            <option value="femenino"
+                                                    {% if field.value == 'femenino' %}selected{% endif %}>
+                                                Femenino
+                                            </option>
+                                            <option value="masculino"
+                                                    {% if field.value == 'masculino' %}selected{% endif %}>Masculino
+                                            </option>
+                                        </select>
+                                    </div>
+                                {% else %}
+                                    <!-- Si no es el campo 'sexo', muestra un campo de entrada de texto -->
+                                    <input class="input" type="{{ field.field.widget.input_type }}"
+                                           id="{{ field.id_for_label }}"
+                                           name="{{ field.html_name }}" value="{{ field.value }}"
+                                           {% if not editing %}readonly{% endif %}>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="column">
+                    {% for field in doctor_form %}
+                        <div class="field {% if field.errors %}has-text-danger{% endif %}">
+                            <label class="label">{{ field.label }}</label>
+                            <div class="control">
+                                {% if field.name == 'sexo' %}
+                                    <div class="select is-fullwidth">
+                                        <select name="{{ field.html_name }}" id="{{ field.id_for_label }}"
+                                                {% if not editing %}disabled{% endif %}>
+                                            <option value="femenino"
+                                                    {% if field.value == 'femenino' %}selected{% endif %}>
+                                                Femenino
+                                            </option>
+                                            <option value="masculino"
+                                                    {% if field.value == 'masculino' %}selected{% endif %}>
+                                                Masculino
+                                            </option>
+                                        </select>
+                                    </div>
+                                {% else %}
+                                    <!-- Si no es el campo 'sexo', muestra un campo de entrada de texto -->
+                                    <input class="input {% if field.errors %}is-danger{% endif %}"
+                                           type="{{ field.field.widget.input_type }}"
+                                           id="{{ field.id_for_label }}"
+                                           name="{{ field.html_name }}" value="{{ field.value }}"
+                                           {% if not editing %}readonly{% endif %}>
+                                {% endif %}
+                            </div>
+                            {% for error in field.errors %}
+                                <p class="help is-danger">{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+
 
                 </div>
-            {% endfor %}
-            {% for field in doctor_form %}
-                <div class="columns is-mobile">
-                    <div class="column">
-                        <label class="form-label">{{ field.label }}</label>
-                        <input class="input is-link" type="{{ field.field.widget.input_type }}" class="form-control"
-                               id="{{ field.id_for_label }}"
-                               name="{{ field.html_name }}" value="{{ field.value }}"
-                               {% if not editing %}readonly{% endif %}>
-                    </div>
-
-                </div>
-            {% endfor %}
+            </div>
             {% if editing %}
-                <button class="button is-success" type="submit">Guardar Cambios</button>
-                <a href="{% url 'perfil_doctor' %}" class="button close-modal-button">Cancelar</a>
+                <div class="field is-grouped">
+                    <div class="control">
+                        <button class="button is-success" type="submit">Guardar Cambios</button>
+                    </div>
+                    <div class="control">
+                        <a href="{% url 'perfil_doctor' %}" class="button">Cancelar</a>
+                    </div>
+                </div>
             {% else %}
                 <a href="?editar=true" class="button is-info">Editar</a>
             {% endif %}
         </form>
     </div>
+
 {% endblock %}

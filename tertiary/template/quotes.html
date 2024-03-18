@@ -22,7 +22,7 @@
 
         {#    <a href="{% url 'crear_cita' %}" class="btn btn-primary">Agregar Nueva Cita</a>#}
         <div class="container is-max-widescreen">
-
+            <a href="{% url 'exportar_citas_pdf' %}">Exportar Citas a PDF</a>
             <table class="table">
                 <thead>
                 <tr>
@@ -42,8 +42,8 @@
                         <td>{{ cita.fecha }}</td>
                         <td>{{ cita.hora|time:"H:i" }}</td>
                         <td>{{ cita.detalle }}</td>
-                        <td>
-                            <button type="button" class="button is-link modal-button"
+                        <td style="width: 150px; height: 50px;">
+                            <button type="button" class="button is-link"
                                     onclick="openModal('modalEditarCita{{ cita.pk }}')"
                             >
                                 <i class="fa-solid fa-pencil"></i>
@@ -53,6 +53,7 @@
                                     onclick="openModal('modalEliminarCita{{ cita.pk }}')">
                                 <i class="fas fa-times"></i>
                             </button>
+
                         </td>
                     </tr>
                 {% endfor %}
@@ -114,6 +115,8 @@
                             Cancelar
                         </button>
                     </div>
+
+
                 </form>
 
 
