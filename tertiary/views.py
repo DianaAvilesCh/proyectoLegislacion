@@ -99,18 +99,27 @@ def eliminar_cita(request, pk):
 def agregar_cita(request):
     doctor_instance = doctor.objects.get(id_usuario=request.user)
     doctor_paciente_list = doctor_paciente.objects.filter(id_doctor=doctor_instance)
-    print(doctor_paciente_list)
+
     if request.method == 'POST':
         form = CitaForm(request.POST)
         if form.is_valid():
             cita_instancia = form.save(commit=False)
-            id_doctor_paciente = request.POST.get('doctor_paciente')  # Asigna el primer doctor_paciente de la lista
-            print("Valor de doctor_paciente:", id_doctor_paciente)
-            doctor_paciente_instancia = get_object_or_404(doctor_paciente, id=id_doctor_paciente)
-            cita_instancia.id_doctor_paciente = doctor_paciente_instancia
-            cita_instancia.save()
-            messages.success(request, 'Cita registrada con éxito.', extra_tags='correcto')
-            return redirect('lista_citas')
+            cita_fecha = cita_instancia.fecha
+            cita_hora = cita_instancia.hora
+
+            # Verificar si ya existe una cita para la misma fecha y hora
+            cita_existente = cita.objects.filter(id_doctor_paciente__id_doctor=doctor_instance, fecha=cita_fecha, hora=cita_hora).exists()
+
+            if cita_existente:
+                messages.error(request, 'Ya existe una cita para la misma fecha y hora.', extra_tags='advertencia')
+                return redirect('lista_citas')
+            else:
+                id_doctor_paciente = request.POST.get('doctor_paciente')  # Asigna el primer doctor_paciente de la lista
+                doctor_paciente_instancia = get_object_or_404(doctor_paciente, id=id_doctor_paciente)
+                cita_instancia.id_doctor_paciente = doctor_paciente_instancia
+                cita_instancia.save()
+                messages.success(request, 'Cita registrada con éxito.', extra_tags='correcto')
+                return redirect('lista_citas')
         else:
             messages.error(request, 'Error al registrar cita.', extra_tags='advertencia')
     else:
