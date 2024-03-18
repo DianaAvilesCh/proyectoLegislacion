@@ -63,10 +63,11 @@ def editar_cita(request, pk):
         form = CitaForm(request.POST, instance=cita_instancia)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Cita actualizada con éxito.')
+            messages.success(request, 'Cita actualizada con éxito.', extra_tags='correcto')
+
             return redirect('lista_citas')
         else:
-            messages.error(request, 'Por favor corrija los errores abajo.')
+            messages.error(request, 'Error al actualizar cita.', extra_tags='advertencia')
             # Aquí podrías optar por devolver el usuario a una vista detallada de la cita con el formulario abierto
             # Pero necesitarías cambiar la lógica para mantener la página y abrir el modal.
     else:
@@ -81,7 +82,7 @@ def eliminar_cita(request, pk):
 
     if request.method == 'POST':
         cita_instancia.delete()
-        messages.success(request, 'Cita eliminada con éxito.')
+        messages.success(request, 'Cita eliminada con éxito.', extra_tags='correcto')
         return redirect('lista_citas')
 
     return render(request, 'template/quotes.html', {'cita': cita_instancia})
@@ -101,10 +102,10 @@ def agregar_cita(request):
             doctor_paciente_instancia = get_object_or_404(doctor_paciente, id=id_doctor_paciente)
             cita_instancia.id_doctor_paciente = doctor_paciente_instancia
             cita_instancia.save()
-            messages.success(request, 'Cita agregada con éxito.')
+            messages.success(request, 'Cita registrada con éxito.', extra_tags='correcto')
             return redirect('lista_citas')
         else:
-            messages.error(request, 'Por favor corrija los errores abajo.')
+            messages.error(request, 'Error al registrar cita.', extra_tags='advertencia')
     else:
         form = CitaForm()
 
