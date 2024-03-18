@@ -8,5 +8,6 @@ urlpatterns = [
     path('buscar/', views.obtener_pacientes, name='obtener_pacientes'),
     path('editar/<int:pk>/', views.editar_cita, name='editar_cita'),
     path('eliminar/<int:pk>/', views.eliminar_cita, name='eliminar_cita'),
-
+    path('exportar-citas-pdf/', views.exportar_citas_pdf, name='exportar_citas_pdf'),
+   # path('generar-citas/<int:paciente_id>/<str:fecha_desde>/<str:fecha_hasta>/', views.generar_pdf_citas,name='generar_citas')
 ]

@@ -1,0 +1,20 @@
+{% extends "base.html" %} {% block title %}Perfil de usuario{% endblock %}
+{% block content %}
+    <h1>Seleccionar Paciente y Rango de Fechas</h1>
+    <form method="post">
+        {% csrf_token %}
+        <label for="paciente">Seleccionar Paciente:</label>
+        <select name="paciente" id="paciente">
+            {% for paciente in pacientes %}
+                <option value="{{ paciente.id }}">{{ paciente.nombre_completo }}</option>
+            {% endfor %}
+        </select>
+        <label for="fecha_desde">Fecha Desde:</label>
+        <input type="date" name="fecha_desde" id="fecha_desde">
+        <label for="fecha_hasta">Fecha Hasta:</label>
+        <input type="date" name="fecha_hasta" id="fecha_hasta">
+        {{ form.as_p }}
+        <button type="submit">Generar PDF</button>
+    </form>
+
+{% endblock %}

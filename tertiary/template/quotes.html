@@ -11,7 +11,6 @@
         {% endif %}
     </div>
 
-
     <div class="container is-fluid">
         <div class="buttons">
             <button type="button" class="button is-link modal-button" onclick="openModal('modalAgregarCita')">
@@ -23,7 +22,7 @@
 
         {#    <a href="{% url 'crear_cita' %}" class="btn btn-primary">Agregar Nueva Cita</a>#}
         <div class="container is-max-widescreen">
-
+            <a href="{% url 'exportar_citas_pdf' %}">Exportar Citas a PDF</a>
             <table class="table">
                 <thead>
                 <tr>
@@ -43,8 +42,8 @@
                         <td>{{ cita.fecha }}</td>
                         <td>{{ cita.hora|time:"H:i" }}</td>
                         <td>{{ cita.detalle }}</td>
-                        <td>
-                            <button type="button" class="button is-link modal-button"
+                        <td style="width: 150px; height: 50px;">
+                            <button type="button" class="button is-link"
                                     onclick="openModal('modalEditarCita{{ cita.pk }}')"
                             >
                                 <i class="fa-solid fa-pencil"></i>
@@ -54,6 +53,7 @@
                                     onclick="openModal('modalEliminarCita{{ cita.pk }}')">
                                 <i class="fas fa-times"></i>
                             </button>
+
                         </td>
                     </tr>
                 {% endfor %}
@@ -112,9 +112,11 @@
                     <div class="modal-card-foot">
                         <button type="submit" class="button is-primary">Guardar</button>
                         <button type="button" class="button" onclick="closeModal('modalAgregarCita')">
-                                Cancelar
-                            </button>
+                            Cancelar
+                        </button>
                     </div>
+
+
                 </form>
 
 
